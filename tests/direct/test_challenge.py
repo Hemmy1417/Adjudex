@@ -177,3 +177,13 @@ def test_challenge_after_settlement_refused(module, c):
     with pytest.raises(err(module), match="nothing challengeable"):
         c.challenge(cid, "post-terminal challenges must bounce off (S30)",
                     json.dumps(challenge_items()))
+
+
+def test_challenge_refuses_an_overpaid_bond(module, c):
+    """The bond is EXACT in both directions — an overpay would strand the
+    difference in escrow with no ledger row to claim it back."""
+    aid, cid = final(module, c)
+    as_(module, PROVIDER, BOND + 1)
+    with pytest.raises(err(module), match="bond is exactly"):
+        c.challenge(cid, "an overpaid bond must bounce, not strand value",
+                    json.dumps(challenge_items()))
