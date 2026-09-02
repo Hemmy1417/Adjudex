@@ -53,15 +53,9 @@ export default function Cover() {
             </p>
           </div>
         </div>
-        <div style={{ marginTop: 34, display: "flex", gap: 12, justifyContent: "center", flexWrap: "wrap" }}>
+        <div className="hero-ctas">
           <Link href="/create" className="btn beam">Draft an instrument</Link>
-          <Link
-            href="/instruments"
-            className="btn"
-            style={{ background: "rgba(13,13,13,0.82)", borderColor: "transparent" }}
-          >
-            Read the docket
-          </Link>
+          <Link href="/instruments" className="btn">Read the docket</Link>
         </div>
       </section>
 

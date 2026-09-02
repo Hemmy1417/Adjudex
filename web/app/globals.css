@@ -166,37 +166,68 @@ main.page {
   letter-spacing: -0.01em;
 }
 
-/* ── hero media panel — the one place the gradient lives large ──────────── */
+/* ── the hero: a crisp gradient ring floating on white (Beam's fold) ────── */
 
 .hero-panel {
-  position: relative;
-  border-radius: 24px;
-  overflow: hidden;
-  background:
-    radial-gradient(120% 90% at 50% 115%, #ffb300 0%, #ff7a00 34%, #e63200 68%, #b31f00 100%);
-  color: #fff;
-  padding: clamp(48px, 9vw, 110px) 24px;
+  padding: clamp(30px, 6vw, 70px) 0 clamp(10px, 2vw, 24px);
   text-align: center;
 }
 .hero-ring {
-  width: min(560px, 82vw);
-  aspect-ratio: 1.55;
+  position: relative;
+  width: min(760px, 94vw);
+  aspect-ratio: 1.72;
   margin: 0 auto;
-  border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  background:
-    radial-gradient(closest-side, rgba(255,255,255,0.96) 62%, rgba(255,255,255,0) 63%),
-    conic-gradient(from 200deg, #ffdf8e, #ffb300, #ff7a00, #e63200, #ff9e00, #ffdf8e);
-  box-shadow: 0 30px 70px rgba(120, 20, 0, 0.35);
+}
+.hero-ring::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 50%;
+  background: conic-gradient(from 215deg,
+    #ffb300, #ff8a00 18%, #e63200 42%, #c22b00 52%,
+    #ff7a00 68%, #ffcf4d 86%, #ffb300);
+  -webkit-mask: radial-gradient(closest-side,
+    transparent 71.5%, #000 73.5%, #000 97.5%, transparent 99.5%);
+  mask: radial-gradient(closest-side,
+    transparent 71.5%, #000 73.5%, #000 97.5%, transparent 99.5%);
+}
+.hero-ring::before {
+  content: "";
+  position: absolute;
+  inset: -4%;
+  border-radius: 50%;
+  background: conic-gradient(from 215deg,
+    #ffb300, #ff8a00 18%, #e63200 42%, #c22b00 52%,
+    #ff7a00 68%, #ffcf4d 86%, #ffb300);
+  -webkit-mask: radial-gradient(closest-side,
+    transparent 66%, #000 74%, #000 96%, transparent 100%);
+  mask: radial-gradient(closest-side,
+    transparent 66%, #000 74%, #000 96%, transparent 100%);
+  filter: blur(26px);
+  opacity: 0.5;
 }
 .hero-ring-inner {
+  position: relative;
   color: var(--ink);
-  padding: 0 9%;
+  max-width: 66%;
 }
-.hero-ring-inner .doc-title { font-size: clamp(26px, 4.4vw, 44px); }
-.hero-ring-inner p { color: var(--gray); margin-top: 12px; font-size: 15px; }
+.hero-ring-inner .doc-title { font-size: clamp(26px, 4.6vw, 46px); }
+.hero-ring-inner p {
+  color: var(--gray);
+  margin: 14px auto 0;
+  font-size: 15.5px;
+  max-width: 34ch;
+}
+.hero-ctas {
+  display: flex;
+  gap: 12px;
+  justify-content: center;
+  flex-wrap: wrap;
+  margin-top: clamp(6px, 2vw, 22px);
+}
 
 /* chip marquee row */
 .chip-marquee {
