@@ -57,8 +57,8 @@ function CommitForm({
       <h3>{role === "provider" ? "Commit a response" : "Commit evidence"}</h3>
       <p>
         {role === "provider"
-          ? "Your answer joins the same record, as bytes, under your own signature."
-          : "Committed as bytes on-chain — hashed, frozen, append-only. Nothing you commit can be edited or withdrawn."}
+          ? "Your answer joins the same record."
+          : "Committed as bytes — frozen, append-only."}
       </p>
       {role === "client" && (
         <div className="field">
@@ -125,10 +125,9 @@ function FindingsSheet({
         <div style={{ flex: 1, minWidth: 260 }}>
           {a.verdict === "REVIEW_REQUIRED" ? (
             <p className="muted small">
-              The panel could not establish the period conclusively
-              (evidence: <span className="mono">{a.evidence_flag}</span>
-              {a.hard_conflicts.length >= 2 ? ", unresolved contradictions" : ""}).
-              A hold pays nobody — the case reopens for more evidence.
+              Held — evidence <span className="mono">{a.evidence_flag}</span>
+              {a.hard_conflicts.length >= 2 ? ", unresolved contradictions" : ""}.
+              The case reopens for more evidence.
             </p>
           ) : (
             <RateMeter rateBps={a.rate_bps} thresholdBps={a.threshold_bps} />
@@ -199,8 +198,7 @@ function FindingsSheet({
         <summary>
           <span className="ev-id">DOSSIER</span>
           <span className="faint small">
-            the {a.rows.length} record rows this judgment read — each digest
-            covers the bytes stored, so anyone can re-check it forever
+            the {a.rows.length} rows this judgment read, with their digests
           </span>
         </summary>
         <pre>
@@ -431,9 +429,8 @@ export default function CaseFile() {
         </div>
         {!manifest && (
           <StateNote kind="empty">
-            The record is empty. The client opens it by committing the
-            period&apos;s evidence — payment logs, exception records, outage
-            notices — as bytes the panel will read under the frozen terms.
+            The record is empty — the client commits the period&apos;s
+            evidence to open it.
           </StateNote>
         )}
         {manifest && (
@@ -515,11 +512,7 @@ export default function CaseFile() {
           {cs.status === "OPEN" && cs.evidence_version > 0 && (
             <div className="action-card">
               <h3>Call the panel</h3>
-              <p>
-                Anyone can call it once the response window closes. Validators
-                count the record under the frozen terms; code derives the
-                verdict. One judgment per record version — no re-rolls.
-              </p>
+              <p>Runs once per record version, once the response window closes.</p>
               <span className="price">costs nothing but gas · takes ~1–2 minutes of consensus</span>
               <button className="btn" disabled={busy || now <= responseOpenUntil} onClick={() => void run(
                 "adjudicate", [cs.case_id], 0n,
@@ -535,7 +528,7 @@ export default function CaseFile() {
           {cs.status === "OPEN" && isClient && (
             <div className="action-card">
               <h3>Withdraw the case</h3>
-              <p>Before a verdict stands, the case is yours to withdraw; the reservation returns to the provider&apos;s free reserve.</p>
+              <p>Returns the reservation to the free reserve.</p>
               <span className="price">releases {formatGen(cs.reserved_atto)} GEN back to the reserve</span>
               <button className="btn quiet" disabled={busy} onClick={() => void run(
                 "withdraw_case", [cs.case_id], 0n,
@@ -548,11 +541,7 @@ export default function CaseFile() {
           {cs.status === "PENDING_FINALITY" && (
             <div className="action-card">
               <h3>Promote the verdict</h3>
-              <p>
-                Permissionless: after the finality window, the recorded
-                verdict becomes the case&apos;s state and the challenge window
-                arms.
-              </p>
+              <p>Makes the recorded verdict the case&apos;s state; arms the challenge window.</p>
               <span className="price">costs nothing but gas</span>
               <button className="btn" disabled={busy || now <= cs.pending_until_epoch} onClick={() => void run(
                 "promote", [cs.case_id], 0n,
@@ -568,11 +557,7 @@ export default function CaseFile() {
           {cs.status === "FINAL" && isParty && !cs.challenge_open && now <= cs.challenge_until_epoch && (
             <div className="action-card danger">
               <h3>Challenge the verdict</h3>
-              <p>
-                Your bond and your new material reopen the question. The bond
-                returns if the re-read verdict CHANGES; otherwise it
-                compensates the other party.
-              </p>
+              <p>The bond returns if the verdict changes; otherwise it goes to the other party.</p>
               <div className="field">
                 <span className="label">Grounds (20–600 characters)</span>
                 <textarea rows={2} value={challengeReason} onChange={(e) => setChallengeReason(e.target.value)} />
@@ -604,11 +589,7 @@ export default function CaseFile() {
           {cs.challenge_open && (
             <div className="action-card">
               <h3>Run the re-adjudication</h3>
-              <p>
-                Permissionless, so no challenge is hostage to anyone&apos;s
-                availability. A fresh panel reads the grown record; the bond
-                routes by whether the verdict changes.
-              </p>
+              <p>A fresh panel reads the grown record.</p>
               <span className="price">costs nothing but gas</span>
               <button className="btn" disabled={busy} onClick={() => void run(
                 "re_adjudicate", [cs.case_id], 0n,
@@ -621,12 +602,7 @@ export default function CaseFile() {
           {cs.challenge_open && now > cs.challenge_filed_epoch + 3600 && (
             <div className="action-card">
               <h3>Lapse the stale challenge</h3>
-              <p>
-                No re-adjudication concluded within the stale window. Any
-                party alone can restore the exact challenged verdict and
-                return the bond — nothing stays hostage to a round that never
-                lands.
-              </p>
+              <p>Restores the challenged verdict exactly; returns the bond.</p>
               <span className="price">restores the snapshot · returns the bond</span>
               <button className="btn quiet" disabled={busy} onClick={() => void run(
                 "lapse_challenge", [cs.case_id], 0n,
@@ -640,11 +616,9 @@ export default function CaseFile() {
             <div className="action-card">
               <h3>Settle the case</h3>
               <p>
-                Permissionless and atomic:{" "}
                 {cs.verdict === "BREACHED"
-                  ? `BREACHED credits the client exactly ${formatGen(cs.reserved_atto)} GEN`
-                  : "NOT BREACHED returns the reservation to the provider's free reserve"}
-                . Parties exit through claim.
+                  ? `Credits the client exactly ${formatGen(cs.reserved_atto)} GEN.`
+                  : "Returns the reservation to the provider's free reserve."}
               </p>
               <span className="price">costs nothing but gas</span>
               <button className="btn" disabled={busy} onClick={() => void run(
@@ -658,7 +632,7 @@ export default function CaseFile() {
           {address && claimable !== "0" && (
             <div className="action-card">
               <h3>Claim your balance</h3>
-              <p>Everything the ledger owes this wallet, in one pull-payment.</p>
+              <p>Everything the ledger owes this wallet.</p>
               <span className="price">pays you {formatGen(claimable)} GEN</span>
               <button className="btn" disabled={busy} onClick={() => void run(
                 "claim", [], 0n, claimDrained(address),

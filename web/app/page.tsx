@@ -73,19 +73,6 @@ export default function Cover() {
         </div>
       </div>
 
-      <section>
-        <h2 className="doc-title" style={{ fontSize: "clamp(28px,4.4vw,44px)", maxWidth: "24ch" }}>
-          Adjudex escrows a service credit behind an SLA — and puts the breach
-          question to a GenLayer validator panel.
-        </h2>
-        <p className="doc-sub" style={{ marginTop: 14 }}>
-          The panel reads the frozen terms and the recorded month, and returns
-          findings only. Deterministic code — identical inside every validator
-          — derives the verdict and moves the credit. The model never touches
-          an amount.
-        </p>
-      </section>
-
       {state === "loading" && (
         <StateNote kind="loading">Reading the live contract…</StateNote>
       )}
@@ -121,89 +108,10 @@ export default function Cover() {
         </section>
       )}
 
-      <section className="feature-grid">
-        <div className="feature">
-          <h3>Reserved before judged</h3>
-          <p>
-            Opening a case debits the full period credit from the provider&apos;s
-            escrowed reserve. A breach verdict is funded before anyone judges
-            anything.
-          </p>
-        </div>
-        <div className="feature">
-          <h3>Findings, not verdicts</h3>
-          <p>
-            Validators count the record under the agreement&apos;s own exception
-            language. Pure code derives BREACHED, NOT&nbsp;BREACHED or a hold —
-            identically, everywhere.
-          </p>
-        </div>
-        <div className="feature">
-          <h3>A record in bytes</h3>
-          <p>
-            Evidence is committed on-chain, hashed item by item, append-only.
-            The provider answers each item with its own wallet: acknowledge,
-            dispute, respond.
-          </p>
-        </div>
-        <div className="feature">
-          <h3>Exits everywhere</h3>
-          <p>
-            Finality windows, a bonded challenge, a stale-challenge lapse that
-            restores the exact snapshot, permissionless settlement — and one
-            pull-payment door for value.
-          </p>
-        </div>
-      </section>
-
-      <section className="sheet well">
-        <div className="section-head">
-          <h2>How an instrument runs</h2>
-          <span className="aside">three acts</span>
-        </div>
-        <div className="table-scroll">
-          <table className="ledger">
-            <tbody>
-              <tr>
-                <td className="mono" style={{ width: 40 }}>01</td>
-                <td>
-                  <strong>Bind.</strong>{" "}
-                  <span className="muted">
-                    A provider drafts the SLA — threshold, per-period credit,
-                    exception language — and funds the credit reserve in the
-                    same signature. The client counter-signs; the terms freeze
-                    under a sha256 at assent.
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="mono">02</td>
-                <td>
-                  <strong>File.</strong>{" "}
-                  <span className="muted">
-                    For one service period the client commits the evidence
-                    record as bytes. The full credit is reserved the moment the
-                    case opens, and every commit restarts the other side&apos;s
-                    response window.
-                  </span>
-                </td>
-              </tr>
-              <tr>
-                <td className="mono">03</td>
-                <td>
-                  <strong>Adjudicate.</strong>{" "}
-                  <span className="muted">
-                    Anyone calls the panel. A finality window, a bonded
-                    challenge path, then settlement — BREACHED pays the client
-                    the exact agreed credit, and both parties exit through
-                    claim.
-                  </span>
-                </td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </section>
+      <p className="doc-sub">
+        How adjudication, challenges and settlement work is written once, on
+        the <Link href="/rules" style={{ textDecoration: "underline" }}>rules page</Link>.
+      </p>
     </main>
   );
 }

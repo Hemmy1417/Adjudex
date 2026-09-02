@@ -68,9 +68,7 @@ export default function Docket() {
       <div>
         <h1 className="doc-title">The docket</h1>
         <p className="doc-sub" style={{ marginTop: 10 }}>
-          Every instrument on record — {total} drafted to date. The whole
-          docket is public: terms, evidence, findings and settlements are the
-          record, not the exception.
+          {total} instrument{total === 1 ? "" : "s"} on record.
         </p>
       </div>
 
@@ -86,9 +84,7 @@ export default function Docket() {
       )}
       {state === "ready" && rows && rows.length === 0 && (
         <StateNote kind="empty">
-          The docket is empty: no instrument has been drafted on this contract
-          yet. Drafting one takes a provider wallet, terms, and a funded
-          reserve.
+          The docket is empty — no instrument has been drafted yet.
         </StateNote>
       )}
       {state === "ready" && rows && rows.length > 0 && (

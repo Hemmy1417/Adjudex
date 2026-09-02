@@ -243,10 +243,7 @@ export default function InstrumentRoom() {
           {isClient && ag.status === "CREATED" && (
             <div className="action-card">
               <h3>Counter-sign the instrument</h3>
-              <p>
-                Your signature is mutual assent: the terms freeze, and the
-                agreement goes live.
-              </p>
+              <p>Mutual assent — the terms freeze and the agreement goes live.</p>
               <span className="price">costs nothing but gas</span>
               <button className="btn" disabled={busy} onClick={() => void run(
                 "accept_agreement", [ag.agreement_id], 0n,
@@ -259,7 +256,7 @@ export default function InstrumentRoom() {
           {isProvider && ag.status === "CREATED" && (
             <div className="action-card">
               <h3>Withdraw the draft</h3>
-              <p>Before the client signs, the draft is yours to cancel; the reserve returns to your claimable balance.</p>
+              <p>Cancel before the client signs.</p>
               <span className="price">returns {formatGen(ag.reserve_free_atto)} GEN</span>
               <button className="btn quiet" disabled={busy} onClick={() => void run(
                 "cancel_agreement", [ag.agreement_id], 0n,
@@ -272,11 +269,7 @@ export default function InstrumentRoom() {
           {isClient && (ag.status === "ACTIVE" || ag.status === "CLOSING") && (
             <div className="action-card">
               <h3>Open a case</h3>
-              <p>
-                One service period, put on the record.{" "}
-                <strong>{formatGen(ag.credit_amount_atto)} GEN is reserved
-                from the free reserve the moment it opens.</strong>
-              </p>
+              <p>One service period, put on the record.</p>
               <div className="field">
                 <span className="label">Period label</span>
                 <input value={period} onChange={(e) => setPeriod(e.target.value)} placeholder="2026-08" />
@@ -300,7 +293,7 @@ export default function InstrumentRoom() {
           {isProvider && (ag.status === "ACTIVE" || ag.status === "CREATED") && (
             <div className="action-card">
               <h3>Top up the reserve</h3>
-              <p>Each open case reserves one full credit; the free reserve is what future cases can draw on.</p>
+              <p>Grow what future cases can draw on.</p>
               <div className="field">
                 <span className="label">Amount (GEN)</span>
                 <input value={topUp} onChange={(e) => setTopUp(e.target.value)} inputMode="decimal" />
@@ -320,11 +313,7 @@ export default function InstrumentRoom() {
           {(isProvider || isClient) && ag.status === "ACTIVE" && (
             <div className="action-card">
               <h3>Begin close-out</h3>
-              <p>
-                Starts the {formatSpan(ag.notice_window)} notice. The client
-                keeps full case rights until it lapses — a provider cannot
-                close ahead of a bad month.
-              </p>
+              <p>Starts the {formatSpan(ag.notice_window)} notice; case rights run until it lapses.</p>
               <span className="price">costs nothing but gas</span>
               <button className="btn quiet" disabled={busy} onClick={() => void run(
                 "begin_close", [ag.agreement_id], 0n,
@@ -337,11 +326,7 @@ export default function InstrumentRoom() {
           {ag.status === "CLOSING" && (
             <div className="action-card">
               <h3>Finalize close-out</h3>
-              <p>
-                Permissionless: after the notice window, with every case
-                settled or withdrawn, the free reserve returns to the
-                provider.
-              </p>
+              <p>After the notice window, with no open cases.</p>
               <span className="price">releases {formatGen(ag.reserve_free_atto)} GEN to the provider</span>
               <button className="btn" disabled={busy || ag.open_cases > 0} onClick={() => void run(
                 "finalize_close", [ag.agreement_id], 0n,
@@ -357,7 +342,7 @@ export default function InstrumentRoom() {
           {address && claimable !== "0" && (
             <div className="action-card">
               <h3>Claim your balance</h3>
-              <p>Everything the ledger owes this wallet, in one pull-payment.</p>
+              <p>Everything the ledger owes this wallet.</p>
               <span className="price">pays you {formatGen(claimable)} GEN</span>
               <button className="btn" disabled={busy} onClick={() => void run(
                 "claim", [], 0n, claimDrained(address),

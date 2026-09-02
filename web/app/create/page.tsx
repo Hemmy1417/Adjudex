@@ -123,10 +123,8 @@ export default function Create() {
       <div>
         <h1 className="doc-title">Draft an instrument</h1>
         <p className="doc-sub" style={{ marginTop: 10 }}>
-          You are the provider. You write the terms — including the exception
-          language the panel will hold you both to — fund the credit reserve,
-          and name the client wallet that must counter-sign before anything
-          runs.
+          You are the provider: terms, threshold, credit — and the reserve,
+          escrowed in the same signature.
         </p>
       </div>
 
@@ -165,10 +163,7 @@ export default function Create() {
                 placeholder="0x…"
                 spellCheck={false}
               />
-              <span className="hint">
-                Only this wallet can accept the instrument, open cases and be
-                paid a breach credit.
-              </span>
+              <span className="hint">the wallet that must counter-sign</span>
             </div>
 
             <div className="field wide">
@@ -180,9 +175,8 @@ export default function Create() {
                 spellCheck={false}
               />
               <span className="hint">
-                Frozen and hashed at assent. The panel applies exceptions FROM
-                THIS TEXT and nothing else — an exception the terms do not
-                state excuses nothing. {terms.trim().length} characters.
+                frozen at assent · the panel applies exceptions from this text
+                only · {terms.trim().length} characters
               </span>
             </div>
 
@@ -193,9 +187,7 @@ export default function Create() {
                 onChange={(e) => setThresholdPct(e.target.value)}
                 inputMode="decimal"
               />
-              <span className="hint">
-                The on-time share of eligible payments the period must meet.
-              </span>
+              <span className="hint">on-time share a period must meet</span>
             </div>
             <div className="field">
               <span className="label">Service credit per period (GEN)</span>
@@ -204,10 +196,7 @@ export default function Create() {
                 onChange={(e) => setCreditGen(e.target.value)}
                 inputMode="decimal"
               />
-              <span className="hint">
-                Paid to the client, in full and exactly, when a period is
-                judged BREACHED.
-              </span>
+              <span className="hint">paid exactly, on a BREACHED period</span>
             </div>
 
             <div className="field">
@@ -217,10 +206,7 @@ export default function Create() {
                 onChange={(e) => setReserveGen(e.target.value)}
                 inputMode="decimal"
               />
-              <span className="hint">
-                Held by the contract. Every open case reserves one full credit
-                from it, up front.
-              </span>
+              <span className="hint">each open case reserves one credit</span>
             </div>
             <div className="field">
               <span className="label">Windows (seconds)</span>
@@ -275,9 +261,8 @@ export default function Create() {
                 </dd>
                 <dt>Withdrawal</dt>
                 <dd className="small muted">
-                  Reserve returns only through cancel (before acceptance) or
-                  close-out (after the {formatSpan(windows.notice)} notice, with
-                  no open cases)
+                  cancel before acceptance, or close-out after the{" "}
+                  {formatSpan(windows.notice)} notice
                 </dd>
               </dl>
               <div style={{ display: "flex", gap: 10, marginTop: 14, flexWrap: "wrap" }}>
