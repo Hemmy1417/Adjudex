@@ -118,7 +118,7 @@ function FindingsSheet({
     <div className="sheet">
       <div className="section-head">
         <h2>{title}</h2>
-        <span className="aside mono">{a.assessment_id} · record v{a.evidence_version}</span>
+        <span className="aside">judged at record v{a.evidence_version}</span>
       </div>
       <div style={{ display: "flex", alignItems: "center", gap: 22, flexWrap: "wrap" }}>
         <VerdictStamp verdict={a.verdict} big />
