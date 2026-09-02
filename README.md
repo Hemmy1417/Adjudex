@@ -171,6 +171,30 @@ Panel #2 weighed the provider's challenge against the provider's own record — 
 
 Test counts behind the run: 114 direct tests, 41/41 mutation guards killed (control green), 29 web tests, genvm-lint clean.
 
+### Arc II — the paths the first run never took
+
+A second full run on the same contract (2026-09-02, `arc2.log` + `arc2.transcript.json` in the repo) drove every remaining feature:
+
+```text
+ACT I    draft instrument -> stranger's counter-sign REFUSED -> cancelled, reserve to ledger
+ACT II   case A opens (S23 debit: free 0) -> second period REFUSED against the empty
+         reserve -> top_up_reserve recovers it -> case B opens -> withdrawn, reservation back
+ACT III  thin record ("no log yet") -> PANEL: REVIEW_REQUIRED, INSUFFICIENT, eligible 0
+         -> promotion REOPENS the case, reservation still held: the hold pays nobody
+ACT IV   full record (100 eligible, 2 late, both acknowledged compliance holds)
+         -> PANEL: NOT_BREACHED, rate 100.00% vs 95.00%, SUFFICIENT, score 97 -> FINAL
+ACT V    client challenges (0.05 GEN bond, record v4) and goes silent -> early lapse
+         REFUSED -> after the 1h stale window, a stranger's lapse_challenge restores the
+         S29 snapshot exactly (FINAL, NOT_BREACHED, record back to v3) and returns the bond
+ACT VI   settle: NOT_BREACHED returns the reservation to the provider (no credit paid)
+         -> close-out notice -> finalize_close -> both claims -> escrow_atto 0
+
+FINAL    stats {"agreements":3,"cases":3,"settled":2,"breached":1,"escrow_atto":"0"}
+         CUSTODY ZERO, second time — twelve refusal walls held across the two arcs
+```
+
+Between the two arcs every write method has been driven on the live network except `abandon_case`, whose 30-idle-day window cannot elapse in a live session — it is covered by the direct suite instead.
+
 ## Tech stack
 
 | Layer | Choice |
