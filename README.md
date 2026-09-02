@@ -114,7 +114,62 @@ Every non-terminal state has a permissionless or single-party exit: promotion, s
 
 ## Verified end-to-end
 
-<!-- ARC_TRANSCRIPT -->
+Driven on-chain against `0xDFA6B51565e17B677085351303F8397cd28Cb54D` on 2026-09-02 with three real wallets (provider `0x86dD…18b5`, client `0x57a7…657C`, and a stranger for every permissionless call). Every step below finalized on StudioNet; hashes are in the repo's arc log.
+
+```text
+ACT I — BIND
+  create_agreement   0.15 GEN reserve escrowed · 95.00% threshold · 0.05 GEN credit/period
+                     tx 0xe5976a88…4199 -> instrument adx-000001
+  accept_agreement   client counter-signs; terms frozen (sha256 on-chain)
+
+ACT II — THE RECORD (period 2026-08)
+  open_case          case-000001 · S23 visible on-chain: reserve free 0.10 / held 0.05
+  commit_evidence    3 client items (payment log 100/10 late · screening records · outage INC-88)
+  review_evidence    provider ACKs EV-002 and EV-003 with its own wallet
+  commit_evidence    provider response: "seven have no recognised exception"
+
+ACT III — SEVEN WALLS, ALL REFUSED ON-CHAIN (finalized as ERROR)
+  adjudicate before the response window closed
+  open_case for the same period twice
+  commit_evidence from a stranger wallet
+  settle while the case was OPEN
+  settle inside the challenge window
+  settle twice
+  challenge after settlement
+
+ACT IV — PANEL #1 (five validators, record v2)
+  verdict BREACHED · rate 93.00% vs 95.00% · eligible 100 · late 10
+  excused: 2 COMPLIANCE_HOLD + 1 INFRASTRUCTURE · evidence SUFFICIENT · score 90
+  promote -> FINAL
+
+ACT V — THE BONDED CHALLENGE
+  challenge          provider posts exactly 0.05 GEN + telemetry export (record v3)
+  re_adjudicate      PANEL #2: BREACHED UPHELD · rate 93.00% · SUFFICIENT
+                     the failed bond routes to the client's ledger (deterministic)
+  promote -> FINAL
+
+ACT VI — SETTLE, CLOSE, DRAIN
+  settle             BREACHED -> 0.05 GEN credit to the client's ledger
+  begin_close        notice window enforced, then
+  finalize_close     0.10 GEN free reserve released to the provider
+  claim x2           client 0.10 GEN (credit + won bond) · provider 0.10 GEN
+                     both transfers ride on="finalized"
+
+FINAL STATE
+  stats  {"agreements":1,"cases":1,"settled":1,"breached":1,"escrow_atto":"0"}
+  agreement CLOSED · reserve free 0 · held 0
+  CUSTODY ZERO — every atto in, accounted out
+```
+
+The panels reasoned, not pattern-matched. Panel #1, verbatim:
+
+> EV-001 establishes 100 eligible payments and 10 late; EV-002 (acknowledged) covers TXN-0041 and TXN-0102 as COMPLIANCE_HOLD; EV-003 (acknowledged) covers TXN-0177 as INFRASTRUCTURE; EV-004 confirms the remaining seven have no recognized exception.
+
+Panel #2 weighed the provider's challenge against the provider's own record — and still flagged the telemetry discrepancy as a soft conflict rather than ignoring it:
+
+> The client record (EV-001) identifies 10 late payments, which the provider acknowledges in EV-004 while admitting 7 have no valid exception. A TIMESTAMP_CONTRADICTION exists in EV-005 regarding TXN-0203 and TXN-0311, but the provider's admission of 7 unexcused late payments in EV-004 supports the client's log of 10 total late events (3 excused + 7 unexcused).
+
+Test counts behind the run: 114 direct tests, 41/41 mutation guards killed (control green), 29 web tests, genvm-lint clean.
 
 ## Tech stack
 
