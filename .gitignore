@@ -7,3 +7,5 @@ node_modules/
 .data/
 arc.log
 arc.transcript.json
+web/arc.stdout.log
+web/arc.stderr.log
