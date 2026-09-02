@@ -320,12 +320,12 @@ export default function CaseFile() {
         <div>
           <div className="label">
             <Link href={`/i/${ag.agreement_id}`} style={{ textDecoration: "underline" }}>
-              {ag.agreement_id}
+              the instrument
             </Link>{" "}
             · case file
           </div>
-          <h1 className="doc-title" style={{ fontSize: "clamp(26px,4vw,36px)" }}>
-            <span className="mono">{cs.case_id}</span> · period {cs.period_label}
+          <h1 className="doc-title" style={{ fontSize: "clamp(26px,4vw,40px)" }}>
+            Period {cs.period_label}, on the record.
           </h1>
           <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap", alignItems: "center" }}>
             <StatusChip status={cs.status} />
@@ -401,6 +401,17 @@ export default function CaseFile() {
             </>
           )}
         </dl>
+        <details className="evidence-item">
+          <summary>
+            <span className="ev-kind">technical record</span>
+            <span className="faint small">ids, hashes and full addresses</span>
+          </summary>
+          <pre>{`case id         ${cs.case_id}
+instrument id   ${cs.agreement_id}
+record root     ${cs.evidence_root || "(no evidence yet)"}
+provider        ${ag.provider}
+client          ${ag.client}`}</pre>
+        </details>
       </div>
 
       {/* the verdict, when one stands or is pending */}
@@ -423,7 +434,7 @@ export default function CaseFile() {
           <h2>The record</h2>
           <span className="aside">
             {cs.evidence_version > 0
-              ? <>version {cs.evidence_version} · {cs.item_count} items · root {cs.evidence_root.slice(0, 12)}…</>
+              ? <>version {cs.evidence_version} · {cs.item_count} items</>
               : "nothing committed yet"}
           </span>
         </div>

@@ -74,7 +74,7 @@ function LiveTicker() {
             color:
               ag.status === "ACTIVE" ? "green" :
               ag.status === "CREATED" ? "amber" : "gray",
-            text: `${ag.agreement_id} · ${(ag.threshold_bps / 100).toFixed(2)}% service level · ${formatGen(ag.credit_amount_atto)} GEN credit per period · ${ag.status.toLowerCase()}`,
+            text: `a ${(ag.threshold_bps / 100).toFixed(2)}% service-level instrument · ${formatGen(ag.credit_amount_atto)} GEN credit per period · ${ag.status.toLowerCase()}`,
           });
         }
         t.push({
@@ -116,9 +116,9 @@ function LiveTicker() {
 }
 
 const NAV = [
-  { href: "/instruments", label: "the docket" },
-  { href: "/create", label: "draft" },
-  { href: "/rules", label: "rules" },
+  { href: "/instruments", label: "Docket" },
+  { href: "/create", label: "Draft" },
+  { href: "/rules", label: "Rules" },
 ] as const;
 
 export function Shell({ children }: { children: React.ReactNode }) {
@@ -129,7 +129,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
         <div className="masthead-inner">
           <Link href="/" className="wordmark" aria-label="Adjudex home">
             <Mark />
-            <span className="wordmark-name">adjudex</span>
+            <span className="wordmark-name">Adjudex</span>
           </Link>
           <nav>
             {NAV.map((n) => (
@@ -150,7 +150,7 @@ export function Shell({ children }: { children: React.ReactNode }) {
       <footer className="colophon">
         <div className="colophon-inner">
           <span>
-            adjudex — the decision layer between financial agreements and their
+            Adjudex — the decision layer between financial agreements and their
             enforcement
           </span>
           <span>

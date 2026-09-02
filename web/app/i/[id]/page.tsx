@@ -125,8 +125,9 @@ export default function InstrumentRoom() {
       <div style={{ display: "flex", justifyContent: "space-between", gap: 16, flexWrap: "wrap", alignItems: "flex-start" }}>
         <div>
           <div className="label">Instrument</div>
-          <h1 className="doc-title" style={{ fontSize: "clamp(26px,4vw,36px)" }}>
-            <span className="mono">{ag.agreement_id}</span> · {(ag.threshold_bps / 100).toFixed(2)}% service level
+          <h1 className="doc-title" style={{ fontSize: "clamp(26px,4vw,40px)" }}>
+            A {(ag.threshold_bps / 100).toFixed(2)}% service level, backed by
+            a {formatGen(ag.credit_amount_atto)} GEN credit.
           </h1>
           <div style={{ display: "flex", gap: 8, marginTop: 10, flexWrap: "wrap", alignItems: "center" }}>
             <StatusChip status={ag.status} />
@@ -151,8 +152,6 @@ export default function InstrumentRoom() {
           <dd><Addr value={ag.provider} /></dd>
           <dt>Client</dt>
           <dd><Addr value={ag.client} /></dd>
-          <dt>Terms hash</dt>
-          <dd className="mono small">{ag.terms_sha256.slice(0, 20)}… <span className="faint">(frozen at assent)</span></dd>
           <dt>Drafted</dt>
           <dd className="small">{formatStamp(ag.created_epoch)}</dd>
           {ag.activated_epoch > 0 && (<><dt>Counter-signed</dt><dd className="small">{formatStamp(ag.activated_epoch)}</dd></>)}
@@ -170,6 +169,16 @@ export default function InstrumentRoom() {
         <div className="window-line">
           windows — response {formatSpan(ag.response_window)} · finality {formatSpan(ag.finality_window)} · challenge {formatSpan(ag.challenge_window)} · close-out notice {formatSpan(ag.notice_window)}
         </div>
+        <details className="evidence-item">
+          <summary>
+            <span className="ev-kind">technical record</span>
+            <span className="faint small">ids, hashes and full addresses</span>
+          </summary>
+          <pre>{`instrument id   ${ag.agreement_id}
+terms sha256    ${ag.terms_sha256}
+provider        ${ag.provider}
+client          ${ag.client}`}</pre>
+        </details>
       </div>
 
       <div className="sheet">
@@ -180,7 +189,7 @@ export default function InstrumentRoom() {
         <details className="evidence-item" open={cases.length === 0}>
           <summary>
             <span className="ev-id">TERMS</span>
-            <span className="ev-kind">sha256 {ag.terms_sha256.slice(0, 16)}…</span>
+            <span className="ev-kind">frozen at assent</span>
             <span className="faint small">open the full text</span>
           </summary>
           <pre>{ag.terms_text || "(terms unavailable)"}</pre>
@@ -203,7 +212,6 @@ export default function InstrumentRoom() {
             <table className="ledger">
               <thead>
                 <tr>
-                  <th>Case</th>
                   <th>Period</th>
                   <th>Status</th>
                   <th>Verdict</th>
@@ -214,8 +222,7 @@ export default function InstrumentRoom() {
               <tbody>
                 {cases.map((cs) => (
                   <tr key={cs.case_id} className="rowlink" onClick={() => router.push(`/i/${ag.agreement_id}/case/${cs.case_id}`)}>
-                    <td className="mono">{cs.case_id}</td>
-                    <td className="mono">{cs.period_label}</td>
+                    <td><strong>{cs.period_label}</strong></td>
                     <td><StatusChip status={cs.status} /></td>
                     <td>{cs.verdict ? <VerdictStamp verdict={cs.verdict} /> : <span className="faint">—</span>}</td>
                     <td className="num">v{cs.evidence_version} · {cs.item_count} items</td>

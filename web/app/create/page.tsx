@@ -142,7 +142,6 @@ export default function Create() {
         <div className="sheet">
           <div className="section-head">
             <h2>Instrument drafted</h2>
-            <span className="aside mono">{createdId}</span>
           </div>
           <p className="muted">
             The reserve is in custody and the instrument now waits for the

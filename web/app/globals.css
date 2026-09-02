@@ -67,7 +67,6 @@ strong { font-weight: 500; }
   font-size: 24px;
   font-weight: 500;
   letter-spacing: -0.03em;
-  text-transform: lowercase;
 }
 .masthead nav {
   margin-left: auto;
@@ -80,7 +79,6 @@ strong { font-weight: 500; }
   font-weight: 300;
   color: var(--gray);
   letter-spacing: -0.01em;
-  text-transform: lowercase;
 }
 .masthead nav a:hover { color: var(--ink); }
 .masthead nav a.on { color: var(--ink); }
@@ -616,3 +614,31 @@ table.ledger tr.rowlink:hover td { background: var(--card); }
   .sheet { padding: 22px 18px; border-radius: 18px; }
   main.page { padding: 28px 16px 90px; }
 }
+
+
+/* Base-app row identity: a numbered seal glyph + human title, ids stay in
+   the technical record fold. */
+.seal {
+  width: 40px;
+  height: 40px;
+  border-radius: 999px;
+  flex: none;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #fff;
+  font-weight: 500;
+  font-size: 14px;
+  background: var(--beam);
+}
+.seal.n2 { background: linear-gradient(135deg, #ff7a00, #ffb300); }
+.seal.n3 { background: linear-gradient(135deg, #0d0d0d, #3c3c3c); }
+.seal.muted { background: var(--gray-2); }
+.row-id {
+  display: flex;
+  align-items: center;
+  gap: 14px;
+  min-width: 0;
+}
+.row-id .title { font-size: 16px; font-weight: 400; letter-spacing: -0.01em; }
+.row-id .sub { font-size: 13px; color: var(--gray); }

@@ -9,7 +9,7 @@ import type { Agreement } from "../../lib/types";
 import { useWallet } from "../../lib/wallet";
 import { StateNote, StatusChip } from "../components/bits";
 
-function Row({ ag, you }: { ag: Agreement; you: string }) {
+function Row({ ag, you, n }: { ag: Agreement; you: string; n: number }) {
   const router = useRouter();
   const role = sameAddress(you, ag.provider)
     ? "provider"
@@ -18,13 +18,20 @@ function Row({ ag, you }: { ag: Agreement; you: string }) {
       : "";
   return (
     <tr className="rowlink" onClick={() => router.push(`/i/${ag.agreement_id}`)}>
-      <td className="mono">{ag.agreement_id}</td>
+      <td>
+        <span className="row-id">
+          <span className={`seal${n % 3 === 1 ? "" : n % 3 === 2 ? " n2" : " n3"}`}>{n}</span>
+          <span>
+            <span className="title">{formatGen(ag.credit_amount_atto)} GEN credit per period</span>
+            <br />
+            <span className="sub">{(ag.threshold_bps / 100).toFixed(2)}% service level</span>
+          </span>
+        </span>
+      </td>
       <td>
         <StatusChip status={ag.status} />
       </td>
       <td>{role ? <span className="chip"><span className="dot" />you are the {role}</span> : <span className="faint">—</span>}</td>
-      <td className="num">{(ag.threshold_bps / 100).toFixed(2)}%</td>
-      <td className="num">{formatGen(ag.credit_amount_atto)}</td>
       <td className="num">
         {formatGen(
           (BigInt(ag.reserve_free_atto) + BigInt(ag.reserve_held_atto)).toString(),
@@ -96,15 +103,13 @@ export default function Docket() {
                   <th>Instrument</th>
                   <th>Status</th>
                   <th>Your role</th>
-                  <th className="num">Threshold</th>
-                  <th className="num">Credit / period</th>
                   <th className="num">Reserve (GEN)</th>
                   <th className="num">Cases</th>
                 </tr>
               </thead>
               <tbody>
-                {rows.map((ag) => (
-                  <Row key={ag.agreement_id} ag={ag} you={address} />
+                {rows.map((ag, i) => (
+                  <Row key={ag.agreement_id} ag={ag} you={address} n={total - i} />
                 ))}
               </tbody>
             </table>
