@@ -1,0 +1,31 @@
+[2026-09-02T08:40:41.470Z] ARC START — contract 0xDFA6B51565e17B677085351303F8397cd28Cb54D
+[2026-09-02T08:40:41.495Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-02T08:40:44.107Z] instrument adx-000001 — status CREATED
+[2026-09-02T08:40:49.338Z] >> client accept_agreement("adx-000001")
+[2026-09-02T08:40:56.495Z]    tx 0x1c4736dcc8ef889e49365036407870367bb1e9d1b3e4c251b2818f676a3538af
+[2026-09-02T08:41:43.792Z]    accept_agreement: FINALIZED (leader SUCCESS)
+[2026-09-02T08:42:04.211Z] >> client open_case("adx-000001", "2026-08")
+[2026-09-02T08:42:10.958Z]    tx 0x7059c1591e989297a3fa3e3117fa9fc9155d34948b30e4a6c55e717da862b6d1
+[2026-09-02T08:42:59.203Z]    open_case: FINALIZED (leader SUCCESS)
+[2026-09-02T08:43:12.769Z] S23 visible — reserve free 100000000000000000 / held 50000000000000000
+[2026-09-02T08:43:12.772Z] case case-000001 — status OPEN, record v0 (0 items)
+[2026-09-02T08:43:19.746Z] >> client commit_evidence("case-000001", "[{\"kind\":\"payment_log\",\"label\":\"Payment processi)
+[2026-09-02T08:43:25.855Z]    tx 0x3f2ac9207519a43e5d27f08547728bb7b6e975559bcbceb6d7d0d2ded92e989a
+[2026-09-02T08:44:13.369Z]    commit_evidence: FINALIZED (leader SUCCESS)
+[2026-09-02T08:44:27.738Z] >> provider review_evidence("case-000001", "EV-002", "ack")
+[2026-09-02T08:44:34.451Z]    tx 0x930da12acadcc82f16952cb2557ff29d39fdb67590e169feb65cf2f5ca752d59
+[2026-09-02T08:45:22.277Z]    review_evidence: FINALIZED (leader SUCCESS)
+[2026-09-02T08:45:29.876Z] >> provider review_evidence("case-000001", "EV-003", "ack")
+[2026-09-02T08:45:36.717Z]    tx 0x3a3040c14b66b7337c8e7bd32106f93b36ad79c285f34f5397de84a0c48ce948
+[2026-09-02T08:46:08.916Z]    review_evidence: FINALIZED (leader SUCCESS)
+[2026-09-02T08:46:22.971Z] >> provider commit_evidence("case-000001", "[{\"kind\":\"response\",\"label\":\"Provider answer for)
+[2026-09-02T08:46:30.042Z]    tx 0x9e7ee5665db638a85759d2a01c87d4a996d9c083250f1117ff4ee423a779db2a
+[2026-09-02T08:47:17.929Z]    commit_evidence: FINALIZED (leader SUCCESS)
+[2026-09-02T08:47:31.532Z] >> WALL stranger adjudicate — expecting refusal (early-adjudicate)
+[2026-09-02T08:47:38.355Z]    tx 0xf815b33ed5e572e24824d2475c330693a403277c27a6440fb299c9af000f2e6b (must finalize as ERROR)
+[2026-09-02T08:48:25.920Z]    refused on-chain, finalized as ERROR — the wall held
+[2026-09-02T08:48:25.924Z] >> WALL client open_case — expecting refusal (duplicate-period)
+[2026-09-02T08:48:34.178Z]    tx 0x8ca3433dbff30ce5269b7238d744309eaf1492e551e439627570ced8d11fcee5 (must finalize as ERROR)
+[2026-09-02T08:49:22.028Z]    refused on-chain, finalized as ERROR — the wall held
+[2026-09-02T08:49:22.034Z] >> WALL stranger commit_evidence — expecting refusal (stranger-commit)
+[2026-09-02T08:49:29.904Z]    tx 0xf3067146b577cb58b9246cac3629c2ebdf3211fd8e52ff775a8f2d28100f8b35 (must finalize as ERROR)

@@ -48,7 +48,7 @@ export default function Rules() {
           validator</strong> derives the verdict from those findings,
           identically everywhere:
         </p>
-        <pre className="mono small" style={{ background: "var(--well)", border: "1px solid var(--hairline)", padding: 16, overflowX: "auto" }}>
+        <pre className="mono small" style={{ background: "var(--card)", borderRadius: 16, padding: 18, overflowX: "auto" }}>
 {`evidence below SUFFICIENT      -> REVIEW_REQUIRED   (a hold pays nobody)
 two+ hard contradictions       -> REVIEW_REQUIRED
 zero eligible payments         -> REVIEW_REQUIRED

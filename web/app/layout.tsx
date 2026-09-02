@@ -1,18 +1,13 @@
 import type { Metadata } from "next";
-import { Fraunces, IBM_Plex_Mono, Instrument_Sans } from "next/font/google";
+import { IBM_Plex_Mono, Poppins } from "next/font/google";
 import "./globals.css";
 import { WalletProvider } from "../lib/wallet";
 import { Shell } from "./components/Shell";
 
-const serif = Fraunces({
-  subsets: ["latin"],
-  variable: "--font-serif",
-  weight: ["400", "600", "700"],
-});
-const sans = Instrument_Sans({
+const sans = Poppins({
   subsets: ["latin"],
   variable: "--font-sans",
-  weight: ["400", "500", "600"],
+  weight: ["300", "400", "500"],
 });
 const mono = IBM_Plex_Mono({
   subsets: ["latin"],
@@ -31,10 +26,7 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
   // var() where they are DECLARED, so tokens defined on :root cannot see
   // variables that only exist further down the tree.
   return (
-    <html
-      lang="en"
-      className={`${serif.variable} ${sans.variable} ${mono.variable}`}
-    >
+    <html lang="en" className={`${sans.variable} ${mono.variable}`}>
       <body>
         <WalletProvider>
           <Shell>{children}</Shell>
