@@ -224,7 +224,7 @@ export default function Create() {
             </div>
             <div className="field">
               <span className="label">Windows (seconds)</span>
-              <div style={{ display: "grid", gridTemplateColumns: "1fr 1fr", gap: 8 }}>
+              <div style={{ display: "grid", gridTemplateColumns: "repeat(auto-fit, minmax(110px, 1fr))", gap: 8 }}>
                 {(["response", "finality", "challenge", "notice"] as const).map((k) => (
                   <label key={k} className="field">
                     <span className="hint">{k} · {formatSpan(windows[k])}</span>

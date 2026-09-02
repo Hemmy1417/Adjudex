@@ -358,7 +358,10 @@ table.ledger tr.rowlink:hover td { background: var(--card); }
 
 .field { display: flex; flex-direction: column; gap: 7px; }
 .field .label { color: var(--ink-2); font-weight: 400; }
+.field { min-width: 0; }
 .field input, .field textarea, .field select {
+  width: 100%;
+  min-width: 0;
   background: #fff;
   border: 1px solid var(--line-2);
   border-radius: 12px;
@@ -373,6 +376,7 @@ table.ledger tr.rowlink:hover td { background: var(--card); }
 }
 .field .hint { font-size: 13px; color: var(--gray); }
 .form-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
+.form-grid > * { min-width: 0; }
 .form-grid .wide { grid-column: 1 / -1; }
 @media (max-width: 640px) { .form-grid { grid-template-columns: 1fr; } }
 
@@ -599,9 +603,15 @@ table.ledger tr.rowlink:hover td { background: var(--card); }
 .review-box .schedule dt { color: var(--ink-2); }
 
 @media (max-width: 560px) {
-  .masthead-inner { padding: 12px 16px; gap: 14px; }
+  .masthead-inner { padding: 12px 16px; gap: 10px 14px; flex-wrap: wrap; }
   .wordmark-name { font-size: 20px; }
-  .masthead nav { gap: 14px; }
+  .masthead nav {
+    gap: 6px 14px;
+    flex-wrap: wrap;
+    row-gap: 4px;
+    justify-content: flex-end;
+    min-width: 0;
+  }
   .masthead nav a { font-size: 13px; white-space: nowrap; }
   .sheet { padding: 22px 18px; border-radius: 18px; }
   main.page { padding: 28px 16px 90px; }

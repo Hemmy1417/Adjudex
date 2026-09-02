@@ -110,28 +110,27 @@ is a permanent public record.
 
 ## Required UI Style
 
-Not a SaaS layout. Direction (confirm against styles.refero.design at the
-frontend phase; must differ from all prior builds — first serif-led build):
+Not a SaaS layout. **Direction (user-supplied mid-build, replacing the
+serif letterhead draft): onbeam.com — the Beam school.**
 
 ```text
-"Private-bank legal instrument": cream paper canvas, navy ink, oxblood verdict
-stamps, letterhead top rule, document-spine pages, tabular figures, hairline
-rules, stamped seals for verdicts, no shadows, print-like density.
-```
-
-Colors:
-
-```text
-paper #f6f3ec · ink #14233c · oxblood #7c2a1c · ledger-green #1d5c45
-graphite hairlines #c9c2b4 · tissue #fbfaf7 (raised card)
+White canvas, near-black ink #0d0d0d, quiet gray #868686 secondary text.
+Weight-300 geometric sans at EVERY size (32→64px) with -0.02/-0.03em
+tracking, sentence case. Radii 12/16/24px + full pills. Hairline #ececec
+borders, shadows only on floating menus. The warm signal gradient
+(#e63200 → #ff7a00 → #ffb300) RATIONED to: the hero media panel with its
+gradient ring, one primary CTA pill, and verdict/ticker dots. Structure:
+sticky header (striped-circle mark + lowercase wordmark + lowercase quiet
+nav) · live on-chain ticker strip with colored dot bullets (Beam's news
+ticker, fed by get_stats/get_agreements) · chip marquee · 4-up feature
+grid · stat cards with big light figures.
 ```
 
 Fonts:
 
 ```text
-Display: Fraunces (serif, 72pt optical)
-Body:    Instrument Sans
-Mono:    IBM Plex Mono (all figures, ids, hashes)
+Display+Body: Poppins 300/400/500 (beamSansFont substitute)
+Mono:         IBM Plex Mono (figures, ids, hashes)
 ```
 
 Custom components:
