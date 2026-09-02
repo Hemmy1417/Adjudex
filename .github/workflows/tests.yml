@@ -1,0 +1,58 @@
+name: tests
+
+on:
+  push:
+  pull_request:
+
+jobs:
+  contract:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install
+        run: pip install pytest genvm-linter
+      - name: Direct suite
+        run: python -m pytest tests/direct -q
+      - name: genvm-lint
+        run: |
+          genvm-lint download
+          PYTHONUTF8=1 genvm-lint check contracts/adjudex.py --json
+      - name: Mutation sweep (41 guards + control)
+        run: |
+          python - << 'EOF'
+          import pathlib, re, sys
+          src = pathlib.Path("tests/mutation_sweep.py").read_text(encoding="utf-8")
+          src = src.replace('SRC = pathlib.Path(r"C:/Users/Pc/Desktop/Adjudex")',
+                            'SRC = pathlib.Path(".").resolve()')
+          pathlib.Path("/tmp/mutate.py").write_text(src, encoding="utf-8")
+          EOF
+          python /tmp/mutate.py | tee sweep.out
+          grep -q "survived 0" sweep.out
+          grep -q "anchor-missing 0" sweep.out
+          ! grep -q "CONTROL \*\*FAILED\*\*" sweep.out
+
+  web:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Install (the exact check Vercel runs)
+        run: npm ci
+      - name: Typecheck
+        run: npm run typecheck
+      - name: Lint
+        run: npx eslint .
+      - name: Tests
+        run: npm run test
+      - name: Build
+        run: npm run build
+        env:
+          NEXT_PUBLIC_CONTRACT_ADDRESS: "0xDFA6B51565e17B677085351303F8397cd28Cb54D"
