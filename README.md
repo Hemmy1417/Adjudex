@@ -8,7 +8,7 @@
 
 A payment settles in seconds; the dispute about who was responsible takes weeks. Adjudex escrows a service credit behind an SLA, records the service period as evidence on-chain, and puts the breach question to a GenLayer validator panel that reads the agreement's own exception language. The panel judges - deterministic contract code moves the money.
 
-Contract: [`0xDFA6B51565e17B677085351303F8397cd28Cb54D`](https://explorer-studio.genlayer.com/address/0xDFA6B51565e17B677085351303F8397cd28Cb54D) on GenLayer StudioNet.
+Live app: [adjudexx.vercel.app](https://adjudexx.vercel.app) · Contract: [`0xDFA6B51565e17B677085351303F8397cd28Cb54D`](https://explorer-studio.genlayer.com/address/0xDFA6B51565e17B677085351303F8397cd28Cb54D) on GenLayer StudioNet.
 
 ## What it is
 
