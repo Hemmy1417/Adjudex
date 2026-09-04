@@ -135,7 +135,7 @@ def test_derive_verdict_zero_eligible_branch(module):
     code."""
     v, rate = module._derive_verdict(0, 0, {x: 0 for x in
                                             module.EXCUSE_CATEGORIES},
-                                     "SUFFICIENT", [], 9_500)
+                                     "SUFFICIENT", [], 9_500, "BILATERAL")
     assert (v, rate) == ("REVIEW_REQUIRED", 0)
 
 

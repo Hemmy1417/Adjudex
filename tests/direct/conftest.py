@@ -51,6 +51,15 @@ _PROMPTS = []
 _RUN_DRIFT = []
 _RUN_INDEX = [-1]
 
+# JSON-RPC anchor mocks: (url_fragment, method) -> result | Exception.
+# Strict: an unmocked POST fails the test, so a hidden extra RPC call
+# surfaces. rpc_calls records every (url, method, params) the round made.
+# OMIT_RESULT reproduces the probed StudioNet quirk: a success envelope
+# with NO result key at all (instead of "result": null).
+_RPC = {}
+_RPC_CALLS = []
+OMIT_RESULT = object()
+
 
 class _UserError(Exception):
     def __init__(self, message):
@@ -164,6 +173,32 @@ class _EvmModule:
 
 
 class _NondetWeb:
+    class _Response:
+        def __init__(self, status, body):
+            self.status = status
+            self.body = body
+            self.headers = {}
+
+    @staticmethod
+    def post(url, body=None, headers=None):
+        try:
+            method = json.loads(body.decode("utf-8")).get("method", "")
+            params = json.loads(body.decode("utf-8")).get("params", [])
+        except Exception:
+            method, params = "", []
+        _RPC_CALLS.append((url, method, params))
+        for (frag, m), answer in _RPC.items():
+            if frag in url and m == method:
+                if isinstance(answer, BaseException):
+                    raise answer
+                if answer is OMIT_RESULT:
+                    envelope = {"jsonrpc": "2.0", "id": 1}
+                else:
+                    envelope = {"jsonrpc": "2.0", "id": 1, "result": answer}
+                return _NondetWeb._Response(
+                    200, json.dumps(envelope).encode("utf-8"))
+        raise AssertionError(f"unmocked RPC POST: {url} {method}")
+
     @staticmethod
     def render(url, mode="text"):
         for dead in _DEAD:
@@ -258,6 +293,8 @@ def c(module):
     _PANEL_CALLS[0] = 0
     _RUN_DRIFT.clear()
     _RUN_INDEX[0] = -1
+    _RPC.clear()
+    _RPC_CALLS.clear()
 
     as_(module, PROVIDER, 0)
     inst = module.Adjudex()
@@ -300,6 +337,17 @@ def skew(fragment, seconds):
 
 def dead(fragment):
     _DEAD.add(fragment)
+
+
+def rpc_mock(url_fragment, method, answer):
+    """Mock one JSON-RPC method on endpoints whose URL contains the
+    fragment. answer: the JSON-RPC result value, or an Exception to raise
+    at transport level."""
+    _RPC[(url_fragment, method)] = answer
+
+
+def rpc_calls():
+    return list(_RPC_CALLS)
 
 
 def err(module):
@@ -404,10 +452,17 @@ def opened(module, c, period="2026-08", **kw):
     return aid, cid
 
 
-def evidenced(module, c, items=None, **kw):
+def evidenced(module, c, items=None, acks=("EV-001",), **kw):
+    """Commit the record and, by default, have the provider acknowledge the
+    payment log — the corroborated posture of the canonical live arc. The
+    authenticity floor makes an entirely unacknowledged, unanchored record
+    non-payable by design; tests probing that path pass acks=()."""
     aid, cid = opened(module, c, **kw)
     as_(module, CLIENT, 0)
     c.commit_evidence(cid, json.dumps(items or demo_items()))
+    for item_id in acks:
+        as_(module, PROVIDER, 0)
+        c.review_evidence(cid, item_id, "ACK")
     return aid, cid
 
 

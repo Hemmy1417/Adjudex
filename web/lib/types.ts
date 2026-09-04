@@ -63,6 +63,8 @@ export type EvidenceItem = {
   submitter: "client" | "provider";
   label: string;
   content: string;
+  anchor_chain?: string;
+  anchor_tx?: string;
   content_hash: string;
 };
 
@@ -79,6 +81,10 @@ export type AssessmentRow = {
   submitter: string;
   label: string;
   ack: string;
+  anchor_chain?: string;
+  anchor_tx?: string;
+  anchor_state?: string;
+  anchor_epoch?: number;
   excerpt: string;
   digest: string;
 };
@@ -101,6 +107,7 @@ export type Assessment = {
   evidence_flag: string;
   conflicts: string[];
   hard_conflicts: string[];
+  corroboration?: "INDEPENDENT" | "BILATERAL" | "NONE";
   reason: string;
   rows: AssessmentRow[];
   committed_count: number;

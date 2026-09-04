@@ -37,7 +37,13 @@ const CLIENT_KINDS = [
   "terms_exhibit", "correspondence", "other",
 ];
 
-type ItemDraft = { kind: string; label: string; content: string };
+type ItemDraft = {
+  kind: string; label: string; content: string;
+  anchor_chain?: string; anchor_tx?: string;
+};
+
+const ANCHOR_CHAINS = ["genlayer-studionet", "base", "base-sepolia", "ethereum"];
+const TX_HASH_RE = /^0x[0-9a-f]{64}$/;
 
 function CommitForm({
   role, busy, onCommit,
@@ -51,7 +57,11 @@ function CommitForm({
     label: "",
     content: "",
   });
-  const ok = draft.label.trim().length >= 1 && draft.content.trim().length >= 20;
+  const anchorTx = (draft.anchor_tx ?? "").trim().toLowerCase();
+  const anchorOk = !draft.anchor_chain
+    || (anchorTx.length > 0 && TX_HASH_RE.test(anchorTx));
+  const ok = draft.label.trim().length >= 1
+    && draft.content.trim().length >= 20 && anchorOk;
   return (
     <div className="action-card">
       <h3>{role === "provider" ? "Commit a response" : "Commit evidence"}</h3>
@@ -91,13 +101,62 @@ function CommitForm({
         />
         <span className="hint">{draft.content.trim().length} characters</span>
       </div>
+      {role === "client" && (
+        <>
+          <div className="field">
+            <span className="label">Chain anchor (optional)</span>
+            <select
+              value={draft.anchor_chain ?? ""}
+              onChange={(e) => setDraft((d) => ({
+                ...d,
+                anchor_chain: e.target.value || undefined,
+                anchor_tx: e.target.value ? d.anchor_tx : undefined,
+              }))}
+            >
+              <option value="">no anchor — party-declared record</option>
+              {ANCHOR_CHAINS.map((k) => (
+                <option key={k} value={k}>{k}</option>
+              ))}
+            </select>
+          </div>
+          {draft.anchor_chain && (
+            <div className="field">
+              <span className="label">Anchored transaction hash</span>
+              <input
+                value={draft.anchor_tx ?? ""}
+                onChange={(e) => setDraft((d) => ({ ...d, anchor_tx: e.target.value }))}
+                placeholder="0x…64 hex characters"
+                spellCheck={false}
+              />
+              <span className="hint">
+                The panel&apos;s validators verify this transaction on{" "}
+                {draft.anchor_chain} themselves — independent proof of the
+                anchored event, and a floor requirement for a breach to pay
+                on an otherwise unacknowledged record.
+              </span>
+            </div>
+          )}
+        </>
+      )}
       <span className="price">restarts the response window for the other side</span>
       <button
         className="btn"
         disabled={busy || !ok}
         onClick={() => {
-          onCommit([{ ...draft, label: draft.label.trim(), content: draft.content.trim() }]);
-          setDraft((d) => ({ ...d, label: "", content: "" }));
+          const item: ItemDraft = {
+            kind: draft.kind,
+            label: draft.label.trim(),
+            content: draft.content.trim(),
+          };
+          if (draft.anchor_chain && anchorTx) {
+            item.anchor_chain = draft.anchor_chain;
+            item.anchor_tx = anchorTx;
+          }
+          onCommit([item]);
+          setDraft((d) => ({
+            ...d, label: "", content: "",
+            anchor_chain: undefined, anchor_tx: undefined,
+          }));
         }}
       >
         Commit to the record
@@ -124,11 +183,21 @@ function FindingsSheet({
         <VerdictStamp verdict={a.verdict} big />
         <div style={{ flex: 1, minWidth: 260 }}>
           {a.verdict === "REVIEW_REQUIRED" ? (
-            <p className="muted small">
-              Held — evidence <span className="mono">{a.evidence_flag}</span>
-              {a.hard_conflicts.length >= 2 ? ", unresolved contradictions" : ""}.
-              The case reopens for more evidence.
-            </p>
+            a.corroboration === "NONE" && a.evidence_flag === "SUFFICIENT" &&
+            a.hard_conflicts.length < 2 && a.eligible_total > 0 ? (
+              <p className="muted small">
+                Held — the record is uncorroborated: no item is
+                chain-verified or provider-acknowledged, and an unproven
+                story cannot take money. The case reopens; anchor a
+                settlement transaction or obtain an acknowledgement.
+              </p>
+            ) : (
+              <p className="muted small">
+                Held — evidence <span className="mono">{a.evidence_flag}</span>
+                {a.hard_conflicts.length >= 2 ? ", unresolved contradictions" : ""}.
+                The case reopens for more evidence.
+              </p>
+            )
           ) : (
             <RateMeter rateBps={a.rate_bps} thresholdBps={a.threshold_bps} />
           )}
@@ -176,6 +245,19 @@ function FindingsSheet({
       <dl className="schedule">
         <dt>Evidence</dt>
         <dd className="mono small">{a.evidence_flag}</dd>
+        {a.corroboration && (
+          <>
+            <dt>Corroboration</dt>
+            <dd className="small">
+              {a.corroboration === "INDEPENDENT" &&
+                "independent — an anchored transaction was verified on a public chain by the panel's own nodes"}
+              {a.corroboration === "BILATERAL" &&
+                "bilateral — the provider's wallet acknowledged part of the record"}
+              {a.corroboration === "NONE" &&
+                "none — the record is a party's own attestation"}
+            </dd>
+          </>
+        )}
         <dt>Panel score</dt>
         <dd className="figure">{a.score} / 100</dd>
         {a.conflicts.length > 0 && (
@@ -203,7 +285,12 @@ function FindingsSheet({
         </summary>
         <pre>
           {a.rows
-            .map((r) => `${r.id} · ${r.kind} · ${r.submitter}${r.ack ? ` · ${r.ack}` : ""}\n  sha256 ${r.digest}`)
+            .map((r) => {
+              const anchor = r.anchor_state
+                ? ` · anchor ${r.anchor_state}${r.anchor_state === "VERIFIED" && r.anchor_chain ? ` (${r.anchor_chain})` : ""}`
+                : "";
+              return `${r.id} · ${r.kind} · ${r.submitter}${r.ack ? ` · ${r.ack}` : ""}${anchor}\n  sha256 ${r.digest}`;
+            })
             .join("\n")}
         </pre>
       </details>
@@ -462,6 +549,11 @@ client          ${ag.client}`}</pre>
                     )}
                     {ack === "DISPUTE" && (
                       <span className="chip danger"><span className="dot" />provider-disputed</span>
+                    )}
+                    {it.anchor_chain && (
+                      <span className="chip open">
+                        <span className="dot" />anchored · {it.anchor_chain}
+                      </span>
                     )}
                     <span className="faint small">{it.label}</span>
                     {isProvider && cs.status === "OPEN" && it.submitter === "client" && (

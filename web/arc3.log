@@ -1,0 +1,189 @@
+[2026-09-04T09:18:18.689Z] ARC-III START — contract 0x8B20EF7440085bd987207933923a3c68Ef8030d6
+[2026-09-04T09:18:18.720Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-04T09:18:26.923Z] >> provider create_agreement("0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C", "SERVICE LEVEL AGREEMENT (ARC-III) between the correspon, 9500, "50000000000000000", 900, 900, 900, 900) value 0.05 GEN
+[2026-09-04T09:18:33.798Z]    tx 0xcd340e69672be131fcb152bbb90f9eae7024f61a8be6278a4cfc95c8dae9176c
+[2026-09-04T09:19:37.281Z]    create_agreement: still PROPOSING…
+[2026-09-04T09:20:40.730Z]    create_agreement: still ACCEPTED…
+[2026-09-04T09:21:12.097Z]    create_agreement: FINALIZED (leader SUCCESS)
+[2026-09-04T09:21:19.580Z] instrument adx-000001 — status CREATED
+[2026-09-04T09:21:26.114Z] >> client accept_agreement("adx-000001")
+[2026-09-04T09:21:33.144Z]    tx 0x2466f7372ea8b47cddd794cb4b58bdd00df08b28fe4c8203810e975bf78ee687
+[2026-09-04T09:22:35.979Z]    accept_agreement: still ACCEPTED…
+[2026-09-04T09:22:51.724Z]    accept_agreement: FINALIZED (leader SUCCESS)
+[2026-09-04T09:23:05.784Z] >> client open_case("adx-000001", "2026-09")
+[2026-09-04T09:23:12.392Z]    tx 0x027e5c74b07b9390db266e6a1e0a75584093c271938533dfb499214cd864ae7d
+[2026-09-04T09:23:59.785Z]    open_case: FINALIZED (leader SUCCESS)
+[2026-09-04T09:24:07.289Z] case case-000001 — status OPEN, version 0
+[2026-09-04T09:24:07.291Z] >> WALL client commit_evidence — expecting refusal (anchor-unknown-chain)
+[2026-09-04T09:24:14.726Z]    tx 0xf6ca1c79aa04bd6a85993c496383d02e3ad8833c96f9402ecef71fe349900b52 (must finalize as ERROR)
+[2026-09-04T09:25:17.941Z]    refused on-chain, finalized as ERROR — the wall held
+[2026-09-04T09:25:17.945Z] >> WALL client commit_evidence — expecting refusal (anchor-bad-hash)
+[2026-09-04T09:25:25.853Z]    tx 0x1aa7173fb65c8d50b9379ec28e2852d82b149445ec14a530dfed7f0de05db6a0 (must finalize as ERROR)
+[2026-09-04T09:26:29.692Z]    commit_evidence: still ACCEPTED…
+[2026-09-04T09:27:32.358Z]    commit_evidence: still ACCEPTED…
+[2026-09-04T09:28:04.665Z]    refused on-chain, finalized as ERROR — the wall held
+[2026-09-04T09:28:04.669Z] >> WALL client commit_evidence — expecting refusal (anchor-chain-without-tx)
+[2026-09-04T09:28:12.095Z]    tx 0x9eaf29cce0e25906d78d5b10d06b6657625aed771f3a25e68ed1b90963e78cef (must finalize as ERROR)
+[2026-09-04T09:28:59.679Z]    refused on-chain, finalized as ERROR — the wall held
+[2026-09-04T09:29:13.378Z] >> client commit_evidence("case-000001", "[{\"kind\":\"payment_log\",\"label\":\"Payment processi)
+[2026-09-04T09:29:23.512Z]    tx 0x32e64cfd70b06326ecb1fba96df38d3bf099ae65c81fa2ebfcb38541ba688393
+[2026-09-04T09:30:10.745Z]    commit_evidence: FINALIZED (leader SUCCESS)
+[2026-09-04T09:30:31.264Z] waiting 1215s — response window (v1, provider silent)
+[2026-09-04T09:35:31.281Z] waiting 915s — response window (v1, provider silent)
+[2026-09-04T09:40:31.284Z] waiting 615s — response window (v1, provider silent)
+[2026-09-04T09:45:31.289Z] waiting 315s — response window (v1, provider silent)
+[2026-09-04T09:50:31.303Z] waiting 15s — response window (v1, provider silent)
+[2026-09-04T09:50:48.076Z] >> stranger adjudicate("case-000001")
+[2026-09-04T09:50:54.799Z]    tx 0xf54790af4cbedf7fa680e6f0278b271cbd224200e38f4f6dfd8b0cb3aaf7b432
+[2026-09-04T09:51:58.438Z] FATAL: Error: adjudicate: CANCELED
+    at landed (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:109:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async write (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:135:5)
+    at async main (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:266:5)
+[2026-09-04T09:52:44.435Z] ARC-III RESUME — contract 0x8B20EF7440085bd987207933923a3c68Ef8030d6
+[2026-09-04T09:52:44.446Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-04T09:52:46.548Z] instrument adx-000001 — status ACTIVE
+[2026-09-04T09:52:53.174Z] case case-000001 — status OPEN, version 1
+[2026-09-04T09:52:53.178Z] WALL anchor-unknown-chain: already proven earlier — skipping
+[2026-09-04T09:52:53.182Z] WALL anchor-bad-hash: already proven earlier — skipping
+[2026-09-04T09:52:53.184Z] WALL anchor-chain-without-tx: already proven earlier — skipping
+[2026-09-04T09:53:18.642Z] >> stranger adjudicate("case-000001")
+[2026-09-04T09:53:25.654Z]    tx 0xd22b915856419e17f90e7ddf8b69e1f4c6cdbbf7fc9fbf124a813365d71df2e5
+[2026-09-04T09:54:30.637Z]    adjudicate: still COMMITTING…
+[2026-09-04T09:55:34.035Z]    adjudicate: still COMMITTING…
+[2026-09-04T09:56:41.082Z]    adjudicate: still COMMITTING…
+[2026-09-04T09:57:44.340Z]    adjudicate: still COMMITTING…
+[2026-09-04T09:58:48.372Z]    adjudicate: FINALIZED (leader SUCCESS)
+[2026-09-04T09:59:15.520Z] >> client commit_evidence("case-000001", "[{\"kind\":\"payment_log\",\"label\":\"Anchored settlem)
+[2026-09-04T09:59:22.275Z]    tx 0xcd9fd78d60166aaeda66b691019ee78202a435c9e84d4bdfe0630ad88e487a9b
+[2026-09-04T10:00:09.958Z]    commit_evidence: FINALIZED (leader SUCCESS)
+[2026-09-04T10:00:30.241Z] waiting 1215s — response window (v2, anchored)
+[2026-09-04T10:05:30.254Z] waiting 915s — response window (v2, anchored)
+[2026-09-04T10:10:30.269Z] waiting 615s — response window (v2, anchored)
+[2026-09-04T10:15:30.278Z] waiting 315s — response window (v2, anchored)
+[2026-09-04T10:20:30.295Z] waiting 15s — response window (v2, anchored)
+[2026-09-04T10:20:47.436Z] >> stranger adjudicate("case-000001")
+[2026-09-04T10:20:54.279Z]    tx 0xf6e919f12c9c37d267e4c854770bd7138e9ba56de51fffa6b2d266ffc4f475c4
+[2026-09-04T10:21:57.352Z]    adjudicate: still ACCEPTED…
+[2026-09-04T10:22:28.855Z]    adjudicate: FINALIZED (leader SUCCESS)
+[2026-09-04T10:22:36.411Z] PANEL v2: BREACHED · corroboration INDEPENDENT · rate 9300 vs 9500 · evidence SUFFICIENT · score 82
+[2026-09-04T10:22:36.412Z]    reason: EV-001 states 100 eligible payments and identifies 10 that exceeded 30 minutes, which is sufficient to count the period totals. EV-002 supports three term-based exceptions among those late items: TXN-0041 and TXN-0102 as compliance screening holds, and TXN-0177 as an infrastructure incident said to be notified the same day; no evidence supports any data-gap exception. EV-003 has a chain-verified anchor only for the existence of a settlement batch transaction, while EV-004's declared anchor was refuted on-chain, indicating possible fabrication of that item and adding the listed conflict.
+[2026-09-04T10:22:36.413Z]    EV-003: anchor VERIFIED (genlayer-studionet 0x9d36fbb996b89d89…)
+[2026-09-04T10:22:36.414Z]    EV-004: anchor NOT_FOUND (genlayer-studionet 0x0000000000000000…)
+[2026-09-04T10:22:36.416Z]    ok: the real anchor was VERIFIED by the panel's own nodes
+[2026-09-04T10:22:36.417Z]    ok: the fabricated anchor was refuted by the chain
+[2026-09-04T10:22:36.418Z]    ok: corroboration is INDEPENDENT via the verified anchor
+[2026-09-04T10:22:36.419Z]    ok: the corroborated breach stands
+[2026-09-04T10:22:43.143Z] waiting 1206s — finality window (v2 breach)
+[2026-09-04T10:27:43.161Z] waiting 906s — finality window (v2 breach)
+[2026-09-04T13:33:13.298Z] >> stranger promote("case-000001")
+[2026-09-04T13:33:17.872Z]    tx 0xe1a0e41ee0b4cc21d3af61400e9fbc0e3b48c27348b5ddb49065126e268766db
+[2026-09-04T13:34:05.096Z]    promote: FINALIZED (leader SUCCESS)
+[2026-09-04T13:34:12.578Z] promoted — status FINAL, verdict BREACHED
+[2026-09-04T13:34:12.579Z] waiting 1228s — challenge window (unchallenged)
+[2026-09-04T13:39:12.591Z] waiting 928s — challenge window (unchallenged)
+[2026-09-04T13:44:12.659Z] waiting 628s — challenge window (unchallenged)
+[2026-09-04T13:49:12.671Z] waiting 328s — challenge window (unchallenged)
+[2026-09-04T13:54:12.678Z] waiting 28s — challenge window (unchallenged)
+[2026-09-04T13:54:42.959Z] >> stranger settle("case-000001")
+[2026-09-04T13:54:49.450Z]    tx 0xbbbcc69470710b6bbe9737e13eaa2e4f93275e47a23b11f48f920da13da83702
+[2026-09-04T13:55:37.057Z]    settle: FINALIZED (leader SUCCESS)
+[2026-09-04T13:55:44.467Z]    ok: settled BREACHED
+[2026-09-04T13:55:50.930Z] client ledger: 50000000000000000
+[2026-09-04T13:55:57.415Z] >> client claim()
+[2026-09-04T13:56:04.051Z]    tx 0xd4543105657b5436635f3e87827584c91f63f7421829d2fb7e4cfa05e2303c62
+[2026-09-04T13:56:52.231Z]    claim: FINALIZED (leader SUCCESS)
+[2026-09-04T13:56:52.233Z] client claimed the service credit — the anchored breach paid
+[2026-09-04T13:56:59.934Z] STATS {"agreements":1,"cases":1,"settled":1,"breached":1,"escrow_atto":"0"}
+[2026-09-04T13:56:59.936Z] ARC-III COMPLETE — the authenticity ladder proven live.
+[2026-09-04T13:57:48.422Z] ARC-III RESUME — contract 0x8B20EF7440085bd987207933923a3c68Ef8030d6
+[2026-09-04T13:57:48.440Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-04T13:57:50.449Z] instrument adx-000001 — status ACTIVE
+[2026-09-04T13:57:56.744Z] case case-000001 — status SETTLED, version 2
+[2026-09-04T13:57:56.747Z] WALL anchor-unknown-chain: already proven earlier — skipping
+[2026-09-04T13:57:56.749Z] WALL anchor-bad-hash: already proven earlier — skipping
+[2026-09-04T13:57:56.751Z] WALL anchor-chain-without-tx: already proven earlier — skipping
+[2026-09-04T13:58:09.748Z]    v1 veto recorded: MAJORITY_DISAGREE observed live, absence is the record
+[2026-09-04T13:58:48.710Z] client ledger: 0
+[2026-09-04T13:59:07.908Z] >> provider top_up_reserve("adx-000001") value 0.05 GEN
+[2026-09-04T13:59:17.023Z]    tx 0xdd261d685005d01398a28c0d8cbb69b7a7a178a11a21fa66fdac4cef67e37b02
+[2026-09-04T14:00:04.291Z]    top_up_reserve: FINALIZED (MAJORITY_AGREE; leader SUCCESS,SUCCESS)
+[2026-09-04T14:00:11.950Z] >> client open_case("adx-000001", "2026-10")
+[2026-09-04T14:00:18.671Z]    tx 0xde5d68ea315ae13647a107ca7e690cc1b048aed2baef004838fc4b1196013cf9
+[2026-09-04T14:01:06.586Z]    open_case: FINALIZED (MAJORITY_AGREE; leader SUCCESS,SUCCESS)
+[2026-09-04T14:01:14.262Z] floor case case-000002 — status OPEN, version 0
+[2026-09-04T14:01:26.422Z] >> client commit_evidence("case-000002", "[{\"kind\":\"payment_log\",\"label\":\"Payment processi)
+[2026-09-04T14:01:33.337Z]    tx 0xf2c9facc37d6c78196877d98934f81327a11fbe45c454c3c96bb561e63117257
+[2026-09-04T14:02:39.279Z]    commit_evidence: FINALIZED (MAJORITY_AGREE; leader SUCCESS,SUCCESS)
+[2026-09-04T14:02:53.980Z] waiting 1204s — response window (floor case, provider silent, no anchors)
+[2026-09-04T14:07:53.997Z] waiting 904s — response window (floor case, provider silent, no anchors)
+[2026-09-04T14:12:54.020Z] waiting 603s — response window (floor case, provider silent, no anchors)
+[2026-09-04T14:17:54.038Z] waiting 303s — response window (floor case, provider silent, no anchors)
+[2026-09-04T14:22:54.050Z] waiting 3s — response window (floor case, provider silent, no anchors)
+[2026-09-04T14:23:00.409Z] >> stranger adjudicate("case-000002")
+[2026-09-04T14:23:05.610Z]    tx 0x87d01853ada7dbed36eaef07fb25015044fc21bb947afdbde58c828cf18f0aac
+[2026-09-04T14:24:09.425Z]    adjudicate: still PROPOSING…
+[2026-09-04T14:25:14.512Z]    adjudicate: FINALIZED (MAJORITY_AGREE; leader SUCCESS,SUCCESS)
+[2026-09-04T14:25:21.760Z] PANEL floor-case: REVIEW_REQUIRED · corroboration NONE · evidence SUFFICIENT · eligible 100 · late 10 · score 90
+[2026-09-04T14:25:21.761Z]    reason: The client-declared log EV-001 establishes a base of 100 eligible payments with 10 lates. Item EV-002 provides specific exception mapping for TXN-0041 and TXN-0102 as compliance holds and TXN-0177 as infrastructure, all of which are valid exceptions under the ARC-III terms. The score reflects that while the evidence is client-declared, it is internally consistent and detailed.
+[2026-09-04T14:25:21.765Z]    ok: floor-case record is uncorroborated (no ack, no anchor)
+[2026-09-04T14:25:21.769Z]    ok: S34 floor held the uncorroborated breach for review — live
+[2026-09-04T14:25:28.686Z] waiting 1201s — finality window (floor hold)
+[2026-09-04T14:30:28.696Z] waiting 901s — finality window (floor hold)
+[2026-09-04T14:35:28.716Z] waiting 601s — finality window (floor hold)
+[2026-09-04T14:40:28.728Z] waiting 301s — finality window (floor hold)
+[2026-09-04T14:45:28.740Z] waiting 1s — finality window (floor hold)
+[2026-09-04T14:45:32.263Z] >> stranger promote("case-000002")
+[2026-09-04T14:45:39.065Z]    tx 0x708f6f36633df7586fe69266b18b55f081199a5a5e4869ae5e0afebc58570e27
+[2026-09-04T16:07:40.711Z] FATAL: Error: promote: finalized REFUSED (SUCCESS,ERROR)
+    at landed (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:115:21)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async write (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:149:7)
+    at async main (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:431:5)
+[2026-09-04T16:13:47.342Z] ARC-III RESUME — contract 0x8B20EF7440085bd987207933923a3c68Ef8030d6
+[2026-09-04T16:13:47.363Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-04T16:13:51.028Z] instrument adx-000001 — status ACTIVE
+[2026-09-04T16:13:55.308Z] case case-000001 — status SETTLED, version 2
+[2026-09-04T16:13:55.311Z] WALL anchor-unknown-chain: already proven earlier — skipping
+[2026-09-04T16:13:55.313Z] WALL anchor-bad-hash: already proven earlier — skipping
+[2026-09-04T16:13:55.314Z] WALL anchor-chain-without-tx: already proven earlier — skipping
+[2026-09-04T16:14:41.233Z] client ledger: 0
+[2026-09-04T16:14:47.748Z] floor case case-000002 — status OPEN, version 1
+[2026-09-04T16:15:13.893Z] floor case reopened (recorded from the landed promote)
+[2026-09-04T16:15:20.241Z] >> client withdraw_case("case-000002")
+[2026-09-04T16:16:01.804Z]    tx 0x4eca74394ea1f9ec0f7bdce6f8c281c15466a5ab804f67a44275c170ac6f3016
+[2026-09-04T16:16:33.994Z]    withdraw_case: FINALIZED (MAJORITY_AGREE; leader SUCCESS)
+[2026-09-04T16:16:33.998Z] floor case withdrawn — the reservation returned to the free reserve
+[2026-09-04T16:16:47.229Z] >> provider begin_close("adx-000001")
+[2026-09-04T16:16:53.949Z]    tx 0x3bfde5bba4ef28afec46f55e3ae9d0b1565498253ea16d56d14f58e9ba4121e0
+[2026-09-04T16:17:43.753Z]    begin_close: FINALIZED (MAJORITY_AGREE; leader SUCCESS)
+[2026-09-04T16:17:52.644Z] waiting 1225s — close-out notice window
+[2026-09-04T16:22:52.649Z] waiting 925s — close-out notice window
+[2026-09-04T16:27:52.654Z] waiting 625s — close-out notice window
+[2026-09-04T16:32:52.671Z] waiting 325s — close-out notice window
+[2026-09-04T16:37:52.903Z] waiting 25s — close-out notice window
+[2026-09-04T16:38:21.163Z] >> provider finalize_close("adx-000001")
+[2026-09-04T16:38:26.512Z]    tx 0x12271dbfdac545b554acd092027248f153ffae6fcc5013d0421b49c116d3b64e
+[2026-09-04T16:38:58.073Z] FATAL: Error: finalize_close: CANCELED
+    at landed (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:127:38)
+    at process.processTicksAndRejections (node:internal/process/task_queues:105:5)
+    at async write (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:154:7)
+    at async main (file:///C:/Users/Pc/Desktop/Adjudex/web/scripts/arc3.mjs:468:5)
+[2026-09-04T16:40:14.773Z] ARC-III RESUME — contract 0x8B20EF7440085bd987207933923a3c68Ef8030d6
+[2026-09-04T16:40:14.801Z] provider 0x86dDeAFc53B2e194aaD4d74D265ab7Cb741118b5 · client 0x57a7Dc8Ea2d2De0a5906eB28902b8D677Dfc657C · stranger 0xB66D7Fa5C37B696a78cB7F9B4F8056EF37a4b7e6
+[2026-09-04T16:40:17.093Z] instrument adx-000001 — status CLOSING
+[2026-09-04T16:40:23.829Z] case case-000001 — status SETTLED, version 2
+[2026-09-04T16:40:23.832Z] WALL anchor-unknown-chain: already proven earlier — skipping
+[2026-09-04T16:40:23.835Z] WALL anchor-bad-hash: already proven earlier — skipping
+[2026-09-04T16:40:23.840Z] WALL anchor-chain-without-tx: already proven earlier — skipping
+[2026-09-04T16:41:08.681Z] client ledger: 0
+[2026-09-04T16:41:15.560Z] floor case case-000002 — status WITHDRAWN, version 1
+[2026-09-04T16:41:47.237Z] >> provider finalize_close("adx-000001")
+[2026-09-04T16:41:55.334Z]    tx 0x91820a5389cd3e74ab696d18943a3749c3f4fce99f89d7388f3465050ff97195
+[2026-09-04T16:42:43.893Z]    finalize_close: FINALIZED (MAJORITY_AGREE; leader SUCCESS)
+[2026-09-04T16:42:57.219Z] >> provider claim()
+[2026-09-04T16:43:03.893Z]    tx 0xd9b21cff3bf4d2aa53025b6882f1e97b4c144f6d7e69901e4987e661c65ee561
+[2026-09-04T16:43:51.118Z]    claim: FINALIZED (MAJORITY_AGREE; leader SUCCESS)
+[2026-09-04T16:43:51.122Z] provider claimed the returned reserve
+[2026-09-04T16:43:58.590Z] STATS {"agreements":1,"cases":2,"settled":1,"breached":1,"escrow_atto":"0"}
+[2026-09-04T16:43:58.593Z] ARC-III COMPLETE — the authenticity ladder proven live.

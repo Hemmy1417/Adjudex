@@ -56,6 +56,62 @@ MUTATIONS = [
      "        return \"withdrawn\""),
 
     # ── the derivation (the heart) ───────────────────────────────────────
+    ("S34: the authenticity floor stops holding uncorroborated breaches",
+     "        if corroboration == \"NONE\":\n"
+     "            return \"REVIEW_REQUIRED\", 0",
+     "        if False:\n"
+     "            return \"REVIEW_REQUIRED\", 0"),
+
+    ("corroboration stops seeing verified anchors",
+     "        if r.get(\"anchor_state\") == \"VERIFIED\":\n"
+     "            independent = True",
+     "        if False:\n"
+     "            independent = True"),
+
+    ("corroboration stops requiring client rows",
+     "        if not isinstance(r, dict) or r.get(\"submitter\") != \"client\":\n"
+     "            continue",
+     "        if not isinstance(r, dict):\n"
+     "            continue"),
+
+    # Corroboration is guarded twice (direct comparison + recheck from the
+    # leader's own rows), and the row facts feeding it are guarded twice
+    # (row comparison + the recheck deriving from those rows). Single-layer
+    # mutants of any one guard are EQUIVALENT — the sibling layer catches
+    # the same forgery — so each pair is mutated together (the dual-layer
+    # convention this sweep already uses for judge+validator pairs).
+    ("validator loses BOTH corroboration layers (compare + recheck)",
+     "MULTI",
+     [("            if mine[\"corroboration\"] != theirs.get(\"corroboration\"):\n"
+       "                return False",
+       "            if False:\n"
+       "                return False"),
+      ("            t_corr = _derive_corroboration(t_rows)\n"
+       "            if t_corr != theirs.get(\"corroboration\"):\n"
+       "                return False",
+       "            t_corr = str(theirs.get(\"corroboration\"))")]),
+
+    ("validator loses BOTH anchor layers (row compare + recheck)",
+     "MULTI",
+     [("                if me[\"anchor_state\"] != them.get(\"anchor_state\"):\n"
+       "                    return False",
+       "                if False:\n"
+       "                    return False"),
+      ("            t_corr = _derive_corroboration(t_rows)\n"
+       "            if t_corr != theirs.get(\"corroboration\"):\n"
+       "                return False",
+       "            t_corr = str(theirs.get(\"corroboration\"))")]),
+
+    ("anchor verification treats a null receipt as verified",
+     "        if receipt is None or not isinstance(receipt, dict):\n"
+     "            return (\"NOT_FOUND\", 0)",
+     "        if receipt is None or not isinstance(receipt, dict):\n"
+     "            return (\"VERIFIED\", 0)"),
+
+    ("anchor intake stops validating the chain name",
+     "                if anchor_chain not in ANCHOR_CHAINS:",
+     "                if False and anchor_chain not in ANCHOR_CHAINS:"),
+
     ("S22: sufficiency stops gating the verdict",
      "    if evidence_flag != \"SUFFICIENT\":\n"
      "        return \"REVIEW_REQUIRED\", 0",
@@ -76,9 +132,9 @@ MUTATIONS = [
 
     ("threshold comparison flips to <=",
      "    if rate_bps < threshold_bps:\n"
-     "        return \"BREACHED\", rate_bps",
+     "        if corroboration == \"NONE\":",
      "    if rate_bps <= threshold_bps:\n"
-     "        return \"BREACHED\", rate_bps"),
+     "        if corroboration == \"NONE\":"),
 
     ("excused items stop reducing lateness",
      "    excused_total = sum(int(excused.get(c, 0)) for c in EXCUSE_CATEGORIES)",
@@ -195,13 +251,15 @@ MUTATIONS = [
 
     ("validator stops re-deriving the leader's arithmetic",
      "            re_verdict, re_rate = _derive_verdict(\n"
-     "                t_eligible, t_late, t_excused, t_flag, t_hard, threshold_bps)\n"
+     "                t_eligible, t_late, t_excused, t_flag, t_hard, threshold_bps,\n"
+     "                t_corr)\n"
      "            if re_verdict != theirs.get(\"verdict\"):\n"
      "                return False\n"
      "            if re_rate != _as_int(theirs.get(\"rate_bps\"), -1):\n"
      "                return False",
      "            re_verdict, re_rate = _derive_verdict(\n"
-     "                t_eligible, t_late, t_excused, t_flag, t_hard, threshold_bps)"),
+     "                t_eligible, t_late, t_excused, t_flag, t_hard, threshold_bps,\n"
+     "                t_corr)"),
 
     ("validator stops comparing the hard-conflict set",
      "            if mine[\"hard_conflicts\"] != theirs.get(\"hard_conflicts\"):\n"
@@ -227,11 +285,16 @@ MUTATIONS = [
      "                if False:\n"
      "                    return False"),
 
-    ("validator stops comparing ack states",
-     "                if me[\"ack\"] != them.get(\"ack\"):\n"
-     "                    return False",
-     "                if False:\n"
-     "                    return False"),
+    ("validator loses BOTH ack layers (row compare + recheck)",
+     "MULTI",
+     [("                if me[\"ack\"] != them.get(\"ack\"):\n"
+       "                    return False",
+       "                if False:\n"
+       "                    return False"),
+      ("            t_corr = _derive_corroboration(t_rows)\n"
+       "            if t_corr != theirs.get(\"corroboration\"):\n"
+       "                return False",
+       "            t_corr = str(theirs.get(\"corroboration\"))")]),
 
     # ── sanitation / roles ───────────────────────────────────────────────
     ("S19: the defang sanitizer goes half (opener only)",
@@ -269,8 +332,10 @@ def main():
     for name, old, new in MUTATIONS:
         if WORK.exists():
             shutil.rmtree(WORK)
-        shutil.copytree(SRC / "contracts", WORK / "contracts")
-        shutil.copytree(SRC / "tests", WORK / "tests")
+        shutil.copytree(SRC / "contracts", WORK / "contracts",
+                        ignore=shutil.ignore_patterns("__pycache__"))
+        shutil.copytree(SRC / "tests", WORK / "tests",
+                        ignore=shutil.ignore_patterns("work", "__pycache__"))
 
         text = original
         if old == "MULTI":

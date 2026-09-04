@@ -1,0 +1,228 @@
+{
+  "contract": "0x8B20EF7440085bd987207933923a3c68Ef8030d6",
+  "steps": [
+    {
+      "at": "2026-09-04T09:21:12.100Z",
+      "kind": "write",
+      "actor": "provider",
+      "fn": "create_agreement",
+      "value": "50000000000000000",
+      "hash": "0xcd340e69672be131fcb152bbb90f9eae7024f61a8be6278a4cfc95c8dae9176c"
+    },
+    {
+      "at": "2026-09-04T09:22:51.726Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "accept_agreement",
+      "value": "0",
+      "hash": "0x2466f7372ea8b47cddd794cb4b58bdd00df08b28fe4c8203810e975bf78ee687"
+    },
+    {
+      "at": "2026-09-04T09:23:59.786Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "open_case",
+      "value": "0",
+      "hash": "0x027e5c74b07b9390db266e6a1e0a75584093c271938533dfb499214cd864ae7d"
+    },
+    {
+      "at": "2026-09-04T09:25:17.943Z",
+      "kind": "wall",
+      "name": "anchor-unknown-chain",
+      "refusedAt": "finalized",
+      "hash": "0xf6ca1c79aa04bd6a85993c496383d02e3ad8833c96f9402ecef71fe349900b52"
+    },
+    {
+      "at": "2026-09-04T09:28:04.667Z",
+      "kind": "wall",
+      "name": "anchor-bad-hash",
+      "refusedAt": "finalized",
+      "hash": "0x1aa7173fb65c8d50b9379ec28e2852d82b149445ec14a530dfed7f0de05db6a0"
+    },
+    {
+      "at": "2026-09-04T09:28:59.681Z",
+      "kind": "wall",
+      "name": "anchor-chain-without-tx",
+      "refusedAt": "finalized",
+      "hash": "0x9eaf29cce0e25906d78d5b10d06b6657625aed771f3a25e68ed1b90963e78cef"
+    },
+    {
+      "at": "2026-09-04T09:30:10.746Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "commit_evidence",
+      "value": "0",
+      "hash": "0x32e64cfd70b06326ecb1fba96df38d3bf099ae65c81fa2ebfcb38541ba688393"
+    },
+    {
+      "at": "2026-09-04T09:58:48.377Z",
+      "kind": "write",
+      "actor": "stranger",
+      "fn": "adjudicate",
+      "value": "0",
+      "hash": "0xd22b915856419e17f90e7ddf8b69e1f4c6cdbbf7fc9fbf124a813365d71df2e5"
+    },
+    {
+      "at": "2026-09-04T10:00:09.963Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "commit_evidence",
+      "value": "0",
+      "hash": "0xcd9fd78d60166aaeda66b691019ee78202a435c9e84d4bdfe0630ad88e487a9b"
+    },
+    {
+      "at": "2026-09-04T10:22:28.857Z",
+      "kind": "write",
+      "actor": "stranger",
+      "fn": "adjudicate",
+      "value": "0",
+      "hash": "0xf6e919f12c9c37d267e4c854770bd7138e9ba56de51fffa6b2d266ffc4f475c4"
+    },
+    {
+      "at": "2026-09-04T10:22:36.420Z",
+      "kind": "fact",
+      "what": "anchored_breach_live",
+      "verdict": "BREACHED",
+      "corroboration": "INDEPENDENT",
+      "anchor_verified": "VERIFIED",
+      "anchor_fabricated": "NOT_FOUND",
+      "conflicts": [
+        "FABRICATION_INDICATED"
+      ]
+    },
+    {
+      "at": "2026-09-04T13:34:05.099Z",
+      "kind": "write",
+      "actor": "stranger",
+      "fn": "promote",
+      "value": "0",
+      "hash": "0xe1a0e41ee0b4cc21d3af61400e9fbc0e3b48c27348b5ddb49065126e268766db"
+    },
+    {
+      "at": "2026-09-04T13:55:37.064Z",
+      "kind": "write",
+      "actor": "stranger",
+      "fn": "settle",
+      "value": "0",
+      "hash": "0xbbbcc69470710b6bbe9737e13eaa2e4f93275e47a23b11f48f920da13da83702"
+    },
+    {
+      "at": "2026-09-04T13:56:52.233Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "claim",
+      "value": "0",
+      "hash": "0xd4543105657b5436635f3e87827584c91f63f7421829d2fb7e4cfa05e2303c62"
+    },
+    {
+      "at": "2026-09-04T13:56:59.935Z",
+      "kind": "done",
+      "stats": {
+        "agreements": 1,
+        "cases": 1,
+        "settled": 1,
+        "breached": 1,
+        "escrow_atto": "0"
+      }
+    },
+    {
+      "at": "2026-09-04T13:58:09.747Z",
+      "kind": "fact",
+      "what": "live_veto_observed",
+      "tx": "0xd22b915856419e17f90e7ddf8b69e1f4c6cdbbf7fc9fbf124a813365d71df2e5",
+      "result": "MAJORITY_DISAGREE",
+      "note": "failed consensus wrote nothing; the case stayed OPEN and retriable"
+    },
+    {
+      "at": "2026-09-04T14:00:04.292Z",
+      "kind": "write",
+      "actor": "provider",
+      "fn": "top_up_reserve",
+      "value": "50000000000000000",
+      "hash": "0xdd261d685005d01398a28c0d8cbb69b7a7a178a11a21fa66fdac4cef67e37b02"
+    },
+    {
+      "at": "2026-09-04T14:01:06.589Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "open_case",
+      "value": "0",
+      "hash": "0xde5d68ea315ae13647a107ca7e690cc1b048aed2baef004838fc4b1196013cf9"
+    },
+    {
+      "at": "2026-09-04T14:02:39.281Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "commit_evidence",
+      "value": "0",
+      "hash": "0xf2c9facc37d6c78196877d98934f81327a11fbe45c454c3c96bb561e63117257"
+    },
+    {
+      "at": "2026-09-04T14:25:14.514Z",
+      "kind": "write",
+      "actor": "stranger",
+      "fn": "adjudicate",
+      "value": "0",
+      "hash": "0x87d01853ada7dbed36eaef07fb25015044fc21bb947afdbde58c828cf18f0aac"
+    },
+    {
+      "at": "2026-09-04T14:25:21.778Z",
+      "kind": "fact",
+      "what": "s34_floor_live",
+      "verdict": "REVIEW_REQUIRED",
+      "corroboration": "NONE",
+      "evidence": "SUFFICIENT",
+      "rate_bps": 0
+    },
+    {
+      "at": "2026-09-04T16:15:13.892Z",
+      "kind": "fact",
+      "what": "review_hold_reopened_case",
+      "tx": "0x708f6f36633df7586fe69266b18b55f081199a5a5e4869ae5e0afebc58570e27",
+      "note": "promote of the S34 hold returned review_required; the case reopened with the reservation held"
+    },
+    {
+      "at": "2026-09-04T16:16:33.997Z",
+      "kind": "write",
+      "actor": "client",
+      "fn": "withdraw_case",
+      "value": "0",
+      "hash": "0x4eca74394ea1f9ec0f7bdce6f8c281c15466a5ab804f67a44275c170ac6f3016"
+    },
+    {
+      "at": "2026-09-04T16:17:43.754Z",
+      "kind": "write",
+      "actor": "provider",
+      "fn": "begin_close",
+      "value": "0",
+      "hash": "0x3bfde5bba4ef28afec46f55e3ae9d0b1565498253ea16d56d14f58e9ba4121e0"
+    },
+    {
+      "at": "2026-09-04T16:42:43.898Z",
+      "kind": "write",
+      "actor": "provider",
+      "fn": "finalize_close",
+      "value": "0",
+      "hash": "0x91820a5389cd3e74ab696d18943a3749c3f4fce99f89d7388f3465050ff97195"
+    },
+    {
+      "at": "2026-09-04T16:43:51.121Z",
+      "kind": "write",
+      "actor": "provider",
+      "fn": "claim",
+      "value": "0",
+      "hash": "0xd9b21cff3bf4d2aa53025b6882f1e97b4c144f6d7e69901e4987e661c65ee561"
+    },
+    {
+      "at": "2026-09-04T16:43:58.592Z",
+      "kind": "done",
+      "stats": {
+        "agreements": 1,
+        "cases": 2,
+        "settled": 1,
+        "breached": 1,
+        "escrow_atto": "0"
+      }
+    }
+  ]
+}

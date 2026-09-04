@@ -118,6 +118,8 @@ def test_second_settlement_cannot_double_spend_the_reserve(module, c):
     for cid in ("case-000001", "case-000002"):
         as_(module, CLIENT, 0)
         c.commit_evidence(cid, json.dumps(demo_items()))
+        as_(module, PROVIDER, 0)
+        c.review_evidence(cid, "EV-001", "ACK")   # corroborated posture
         advance(W + 1)
         panel_says(sla_answer())
         as_(module, STRANGER, 0)

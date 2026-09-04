@@ -8,13 +8,14 @@
 
 A payment settles in seconds; the dispute about who was responsible takes weeks. Adjudex escrows a service credit behind an SLA, records the service period as evidence on-chain, and puts the breach question to a GenLayer validator panel that reads the agreement's own exception language. The panel judges - deterministic contract code moves the money.
 
-Live app: [adjudexx.vercel.app](https://adjudexx.vercel.app) · Contract: [`0xDFA6B51565e17B677085351303F8397cd28Cb54D`](https://explorer-studio.genlayer.com/address/0xDFA6B51565e17B677085351303F8397cd28Cb54D) on GenLayer StudioNet.
+Live app: [adjudexx.vercel.app](https://adjudexx.vercel.app) · Contract v0.2.0: [`0x8B20EF7440085bd987207933923a3c68Ef8030d6`](https://explorer-studio.genlayer.com/address/0x8B20EF7440085bd987207933923a3c68Ef8030d6) on GenLayer StudioNet (byte-verified against this repository; v0.1.0 remains at [`0xDFA6…54D`](https://explorer-studio.genlayer.com/address/0xDFA6B51565e17B677085351303F8397cd28Cb54D) with its two archived arcs, custody zero).
 
 ## What it is
 
 - **An SLA as an instrument** - a provider drafts the terms (threshold, per-period credit, exception language) and funds a credit reserve in the same signature; the client counter-signs, and the terms freeze under a sha256 at mutual assent.
 - **A case as a record** - for one service period the client commits evidence as canonical bytes on-chain: payment logs, exception records, outage notices. Append-only, hashed item by item into a manifest root. The full period credit is reserved the moment the case opens.
 - **A counterparty with a voice** - the provider answers each item with its own wallet: acknowledge, dispute, or commit a response into the same record. These are the chain facts the panel is told - the one posture the filing party cannot manufacture.
+- **Evidence that can prove itself** - an item may anchor a transaction on a public chain (a chain name from a fixed registry plus a tx hash - never a URL). At adjudication, the leader and every validator query the chain themselves and record what it answers: independent proof of the anchored event, produced by nobody's say-so. A declared anchor the chain refutes is weighed against the item that claimed it.
 - **A panel that judges and code that decides** - validators independently count the record under the frozen terms and return findings only. Pure code inside every validator derives the verdict identically; the model never returns a verdict and never touches an amount.
 - **Settlement with exits everywhere** - finality windows, a bonded challenge judged on an appended record version, a stale-challenge lapse that restores the exact snapshot, permissionless settle, and a pull-payment claim as the only external value path.
 
@@ -31,7 +32,7 @@ Live app: [adjudexx.vercel.app](https://adjudexx.vercel.app) · Contract: [`0xDF
 
 1. Counter-sign the instrument. Your wallet is the identity the credit pays.
 2. Open a case for a service period - one per period, and the full credit is reserved from the free reserve at that moment (a second case cannot pass a solvency check the first consumed).
-3. Commit the period's evidence as bytes. Every commit restarts the response window, so the provider always has answer time.
+3. Commit the period's evidence as bytes - optionally anchoring an item to a settlement transaction on a public chain, which the panel's validators verify themselves. Every commit restarts the response window, so the provider always has answer time.
 4. After adjudication, promotion and the challenge window: settle (anyone can), and claim the credit if the period was BREACHED.
 
 ## Verdicts
@@ -61,10 +62,10 @@ Every non-terminal state has a permissionless or single-party exit: promotion, s
 
 | Function | Kind | What runs under consensus |
 |---|---|---|
-| `adjudicate` / `re_adjudicate` | non-deterministic write | Every validator rebuilds the prompt from the frozen terms + the recorded evidence version, runs the model for findings (counts, excused categories, evidence flag, conflicts, score), derives the verdict in pure code, and compares against the leader's packet |
+| `adjudicate` / `re_adjudicate` | non-deterministic write | Every validator rebuilds the prompt from the frozen terms + the recorded evidence version, verifies every declared chain anchor against the fixed RPC registry ITSELF, runs the model for findings (counts, excused categories, evidence flag, conflicts, score), derives corroboration and the verdict in pure code, and compares against the leader's packet |
 | `_utc_now` (internal) | non-deterministic read | Three `cdn-cgi/trace` hosts (min, mutual divergence refused), an execution-layer block as a one-directional floor, two beacon heads as an independent-mechanism bound in both directions; fails closed to 0 |
 
-**The equivalence rule.** Pinned exactly: the code-derived verdict, the evidence flag, the hard-conflict set, and the leader's own arithmetic (every validator re-derives the leader's verdict and rate from the leader's stored counts - a leader whose numbers do not produce their claimed verdict is refused). Pinned to a bucket: the on-time rate (50 bps) and the score (10 points), each within one adjacent bucket. Pinned structurally: the dossier rows - ids, kinds, submitters, ack states, and each row's sha256 covering the exact bytes stored (all evidence is committed bytes, so there is exactly one honest excerpt per row). Free to differ: the reasoning prose, soft conflict codes, counts within the rate bucket.
+**The equivalence rule.** Pinned exactly: the code-derived verdict, the evidence flag, the hard-conflict set, the corroboration class (guarded twice: compared directly AND re-derived from the leader's own claimed rows), and the leader's own arithmetic (every validator re-derives the leader's verdict and rate from the leader's stored counts - a leader whose numbers do not produce their claimed verdict is refused). Pinned to a bucket: the on-time rate (50 bps) and the score (10 points), each within one adjacent bucket. Pinned structurally: the dossier rows - ids, kinds, submitters, ack states, anchor facts (chain, tx, and the state THIS validator's own registry query produced), and each row's sha256 covering the exact bytes stored (all evidence is committed bytes, so there is exactly one honest excerpt per row). Free to differ: the reasoning prose, soft conflict codes, counts within the rate bucket, and the display-grade anchor block time when only one side obtained it.
 
 **Fail-safe.** A malformed or arithmetically impossible model answer raises inside the judged block and validators disagree - the round rotates instead of settling. An evidence flag below SUFFICIENT coerces every conclusive verdict to REVIEW_REQUIRED inside the compared block, and the promoter refuses a conclusive verdict over a thin record again at the boundary.
 
@@ -75,8 +76,8 @@ Every non-terminal state has a permissionless or single-party exit: promotion, s
 | Network | GenLayer StudioNet |
 | Chain id | 61999 |
 | RPC | `https://studio.genlayer.com/api` |
-| Explorer | [explorer-studio.genlayer.com](https://explorer-studio.genlayer.com/address/0xDFA6B51565e17B677085351303F8397cd28Cb54D) |
-| Address | `0xDFA6B51565e17B677085351303F8397cd28Cb54D` |
+| Explorer | [explorer-studio.genlayer.com](https://explorer-studio.genlayer.com/address/0x8B20EF7440085bd987207933923a3c68Ef8030d6) |
+| Address | `0x8B20EF7440085bd987207933923a3c68Ef8030d6` (v0.2.0; v0.1.0 archived at `0xDFA6B51565e17B677085351303F8397cd28Cb54D`) |
 | Source | [`contracts/adjudex.py`](contracts/adjudex.py) - deployed source byte-verified against this file |
 
 ### Write methods
@@ -169,7 +170,7 @@ Panel #2 weighed the provider's challenge against the provider's own record — 
 
 > The client record (EV-001) identifies 10 late payments, which the provider acknowledges in EV-004 while admitting 7 have no valid exception. A TIMESTAMP_CONTRADICTION exists in EV-005 regarding TXN-0203 and TXN-0311, but the provider's admission of 7 unexcused late payments in EV-004 supports the client's log of 10 total late events (3 excused + 7 unexcused).
 
-Test counts behind the run: 114 direct tests, 41/41 mutation guards killed (control green), 29 web tests, genvm-lint clean.
+Test counts behind the run: 140 direct tests, 48/48 mutation guards killed (control green), 29 web tests, genvm-lint clean.
 
 ### Arc II — the paths the first run never took
 
@@ -195,6 +196,43 @@ FINAL    stats {"agreements":3,"cases":3,"settled":2,"breached":1,"escrow_atto":
 
 Between the two arcs every write method has been driven on the live network except `abandon_case`, whose 30-idle-day window cannot elapse in a live session — it is covered by the direct suite instead.
 
+### Arc III — evidence authenticity, on v0.2.0
+
+The reviewer-round answer, proven on the v0.2.0 deployment (2026-09-04,
+`arc3.log` + `arc3.transcript.json` in the repo; deploy tx `0x9d36fb…eac97`,
+byte-verified):
+
+```text
+ACT I    instrument adx-000001 (0.05 GEN credit escrowed) -> counter-signed
+ACT II   three intake walls, each finalized ERROR on-chain: an anchor on an
+         unknown chain, a malformed transaction hash, a chain named without one
+VETO     the first panel over the uncorroborated record finalized
+         MAJORITY_DISAGREE (tx 0xd22b91…f2e5): validators refused the leader's
+         packet and the protocol wrote NOTHING — absence is the record, the
+         case stayed OPEN and retriable, exactly the designed failure posture
+ACT III  the anchored record: one item anchoring a REAL StudioNet transaction,
+         one item anchoring a FABRICATED hash -> PANEL: the real anchor
+         CHAIN-VERIFIED by the panel's own nodes, the fabricated one NOT_FOUND
+         and named FABRICATION_INDICATED in conflicts -> BREACHED, corroboration
+         INDEPENDENT, rate 93.00% vs 95.00%, SUFFICIENT, score 82
+ACT IV   promote -> FINAL -> settle: the corroborated breach pays the client
+         the exact credit -> claim (custody for the case: zero)
+ACT V    the S34 floor, on a fresh case with a frozen record: clean
+         breach-shaped evidence (100 eligible, 10 late), NO acknowledgement,
+         NO anchor -> PANEL: evidence SUFFICIENT, score 90 — and the code held
+         it anyway: REVIEW_REQUIRED, corroboration NONE. An unproven story
+         cannot take money, however good it looks
+ACT VI   the hold's promotion REOPENS the case -> withdrawn, reservation back
+         -> close-out notice -> finalize_close -> provider claims
+
+FINAL    stats {"agreements":1,"cases":2,"settled":1,"breached":1,"escrow_atto":"0"}
+         CUSTODY ZERO, third arc — fifteen refusal walls held across the three
+```
+
+The veto and the floor are the same lesson from opposite sides: the panel
+disagreeing writes nothing, and the panel agreeing on an uncorroborated
+breach moves nothing. Money needs both consensus and corroboration.
+
 ## Tech stack
 
 | Layer | Choice |
@@ -203,7 +241,7 @@ Between the two arcs every write method has been driven on the live network exce
 | Frontend | Next.js App Router, TypeScript, hand-rolled CSS (no framework) |
 | Chain access | genlayer-js 1.1.8; EIP-6963 wallet discovery; provider-backed write client |
 | RPC discipline | same-origin `/api/rpc` proxy - allowlisted reads, paced to StudioNet's 30/min budget, coalescing cache |
-| Tests | pytest direct suite (114) + mutation sweep (41/41 killed) + vitest web suite (29) |
+| Tests | pytest direct suite (140) + mutation sweep (48/48 killed) + vitest web suite (29) |
 
 ## Repository
 
@@ -238,6 +276,8 @@ npm run dev
 - Exact-amount payables everywhere: a wrong reserve, bond or top-up is refused, never partially absorbed.
 - Every party string is sanitized before prompt assembly (both fence delimiters), so every intact fence in a panel prompt was emitted by the contract - a forged "evidence block" inside a committed document is visibly defused and weighs against its author.
 - The subject of the judgment does not control the record alone: provider acknowledgements and disputes are wallet-signed chain facts, and a provider dispute the record cannot resolve surfaces as a conflict the derivation counts.
+- **The authenticity floor (S34), in code:** a breach found on a record that is neither chain-verified nor conceded by the counterparty cannot take money - the derivation holds it for review instead, where the client can anchor a settlement transaction or the provider can answer. Corroboration is derived from chain facts by code, guarded twice in the validator (direct comparison plus a re-derivation from the leader's own claimed rows), and stored in the dossier consumers read.
+- Anchor verification takes no party-supplied URLs: the RPC registry is fixed at deployment, parties supply only a chain name and a transaction hash, and each validator queries the registry itself.
 
 ## Design notes
 
@@ -248,7 +288,7 @@ npm run dev
 
 ## Honest limitations
 
-- Evidence provenance is wallet signatures plus counterparty answers - not bank-system attestation. The panel is told exactly which items are one party's claim and weighs a single-voice record accordingly; it cannot verify the world outside the record.
+- Evidence authenticity is now a ladder, not a binary: a chain-anchored item is independently verified by every validator against a public chain; a provider-acknowledged item is the counterparty conceding it; everything else remains a party's tamper-evident claim - and the derivation refuses to move money on that last class alone. The honest residual: events that never touched a public chain (a provider's internal compliance hold, an off-chain outage) still cannot be independently proven, only attested and answered - the panel weighs them exactly as what they are, and an uncorroborated breach story holds for review instead of paying.
 - An idle open case returns its reservation to the provider after 30 days. A client who wants the period judged keeps the case alive by committing evidence.
 - StudioNet applies rate limits (30 requests/min, 500/hour per IP); the app's proxy paces within them, and heavy concurrent use degrades to honest "catching up" states rather than failures.
 - The close-out path can strand a REVIEW-looping case at the version cap: after 6 evidence versions the case can only be withdrawn or abandoned. Documented as designed - a record that cannot convince a panel in six attempts is a dispute for another forum.
